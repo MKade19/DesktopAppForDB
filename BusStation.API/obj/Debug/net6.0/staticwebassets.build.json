@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "JOysB1pyvk2kc9qhbUN4cU3lA8u0DVkhdEpgd0rM1/k=",
+  "Source": "BusStation.API",
+  "BasePath": "_content/BusStation.API",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
