@@ -7,7 +7,75 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="Views\BusModelView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\BusProducerView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\BusRouteView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\BusView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\LoginView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\MedicalInspectionView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\PositionView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\RepairmentView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\TechnicalInspectionView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\VoyageView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\WorkerView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <Page Update="MainWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\BusModelView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\BusProducerView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\BusRouteView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\BusView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\LoginView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\MedicalInspectionView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\PositionView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\RepairmentView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\TechnicalInspectionView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\VoyageView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\WorkerView.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

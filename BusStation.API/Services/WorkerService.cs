@@ -8,9 +8,9 @@ namespace BusStation.API.Services
     {  
         private IWorkerRepository WorkerRepository { get; }
 
-        public WorkerService(IWorkerRepository busProducerRepository)
+        public WorkerService(IWorkerRepository workerRepository)
         {
-            WorkerRepository = busProducerRepository;
+            WorkerRepository = workerRepository;
         }
         public async Task CreateOneAsync(Worker worker)
         {
@@ -35,6 +35,11 @@ namespace BusStation.API.Services
         public async Task UpdateByIdAsync(Worker entity)
         {
             await WorkerRepository.UpdateByIdAsync(entity);
+        }
+
+        public async Task<IEnumerable<Worker>> GetByPosition(string positionTitle)
+        {
+            return await WorkerRepository.GetByPosition(positionTitle);
         }
     }
 }

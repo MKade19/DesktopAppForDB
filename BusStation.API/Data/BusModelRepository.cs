@@ -90,6 +90,30 @@ namespace BusStation.API.Data
             return busModel ?? new BusModel();
         }
 
+        public async Task<BusModel> GetByTitleAsync(string title)
+        {
+            string sqlExpression = "usp_select_bus_model_by_title";
+            await _connection.OpenAsync();
+
+            SqlCommand command = new SqlCommand(sqlExpression, _connection);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.Add(new SqlParameter("title", title));
+            BusModel? busModel = null;
+
+            using (SqlDataReader reader = await command.ExecuteReaderAsync())
+            {
+                if (reader.HasRows)
+                {
+                    await reader.ReadAsync();
+                    busModel = GetModelFromReader(reader);
+                }
+            }
+
+            await _connection.CloseAsync();
+
+            return busModel ?? new BusModel();
+        }
+
         public async Task UpdateByIdAsync(BusModel model)
         {
             string sqlExpression = "usp_update_bus_model_by_id";
@@ -110,7 +134,8 @@ namespace BusStation.API.Data
             int id = reader.GetInt32("id");
             string title = reader.GetString("title");
             int producerId = reader.GetInt32("producer_id");
-            return new BusModel(id, title, producerId);
+            string produserName = reader.GetString("producer_name");
+            return new BusModel(id, title, producerId, produserName);
         }
     }
 }

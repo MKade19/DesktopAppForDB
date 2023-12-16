@@ -47,6 +47,10 @@
             "Microsoft.Data.SqlClient": {
               "target": "Package",
               "version": "[5.1.2, )"
+            },
+            "Microsoft.Extensions.DependencyInjection": {
+              "target": "Package",
+              "version": "[8.0.0, )"
             }
           },
           "imports": [

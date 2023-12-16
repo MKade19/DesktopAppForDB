@@ -5,25 +5,31 @@ namespace BusStation.Common.Models
     public class Repairment
     {
         [JsonPropertyName("id")]
-        public int Id { get; } = -1;
+        public int Id { get; set; } = -1;
 
         [JsonPropertyName("beginDate")]
-        public DateTime BeginDate { get; } = DateTime.MinValue;
+        public DateTime BeginDate { get; set; } = DateTime.Today;
 
         [JsonPropertyName("endDate")]
-        public DateTime EndDate { get; } = DateTime.MinValue;
+        public DateTime EndDate { get; set; } = DateTime.Today;
 
         [JsonPropertyName("workerId")]
-        public int WorkerId { get; } = -1;
+        public int WorkerId { get; set; } = -1;
+
+        [JsonPropertyName("workerName")]
+        public string? WorkerName { get; set; }
 
         [JsonPropertyName("busId")]
-        public int BusId { get; } = -1;
+        public int BusId { get; set; } = -1;
+
+        [JsonPropertyName("busNumber")]
+        public string? BusNumber { get; set; }
 
         [JsonPropertyName("malfunction")]
-        public string Malfunction { get; } = string.Empty;
+        public string Malfunction { get; set; } = string.Empty;
 
         [JsonConstructor]
-        public Repairment(int id, DateTime beginDate, DateTime endDate, int workerId, int busId, string malfunction)
+        public Repairment(int id, DateTime beginDate, DateTime endDate, int workerId, int busId, string malfunction, string? workerName, string? busNumber)
         {
             Id = id;
             BeginDate = beginDate;
@@ -31,6 +37,8 @@ namespace BusStation.Common.Models
             WorkerId = workerId;
             BusId = busId;
             Malfunction = malfunction;
+            WorkerName = workerName;
+            BusNumber = busNumber;
         }
 
         public Repairment() { }

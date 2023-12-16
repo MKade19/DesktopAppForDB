@@ -2,7 +2,6 @@
 using BusStation.Common.Models;
 using Microsoft.Data.SqlClient;
 using System.Data;
-using System.Reflection;
 
 namespace BusStation.API.Data
 {
@@ -115,13 +114,14 @@ namespace BusStation.API.Data
             int busId = reader.GetInt32("bus_id");
             bool isAllowed = reader.GetBoolean("is_allowed");
             string? denialReason = null;
+            string busNumber = reader.GetString("state_number");
 
             if (!reader.IsDBNull(4))
             {
                 denialReason = reader.GetString("denial_reason");
             }
 
-            return new TechnicalInspection(id, inspectionDate, busId, isAllowed, denialReason);
+            return new TechnicalInspection(id, inspectionDate, busId, isAllowed, denialReason, busNumber);
         }
     }
 }

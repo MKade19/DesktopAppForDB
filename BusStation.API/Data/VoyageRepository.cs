@@ -115,12 +115,28 @@ namespace BusStation.API.Data
         {
             int id = reader.GetInt32("id");
             DateTime voyageDate = reader.GetDateTime("voyage_date");
-            TimeSpan departureTime = reader.GetTimeSpan(2);
-            TimeSpan arrivalTime = reader.GetTimeSpan(3);
+            DateTime departureTime = reader.GetDateTime("departure_time");
+            DateTime arrivalTime = reader.GetDateTime("arrival_time");
             int routeId = reader.GetInt32("route_id");
             int workerId = reader.GetInt32("worker_id");
             int busId = reader.GetInt32("bus_id");
-            return new Voyage(id, voyageDate, departureTime, arrivalTime, routeId, workerId, busId);
+            string routeNumber = reader.GetString("route_number");
+            string workerFullname = reader.GetString("worker_fullname");
+            string busNumber = reader.GetString("state_number");
+
+            return new Voyage
+            (
+                id, 
+                voyageDate, 
+                departureTime, 
+                arrivalTime, 
+                routeId, 
+                workerId, 
+                busId,
+                routeNumber,
+                workerFullname,
+                busNumber
+            );
         }
     }
 }

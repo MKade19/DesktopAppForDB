@@ -31,7 +31,7 @@ namespace BusStation.API.Controllers
         public async Task<ActionResult> CreateOneAsync([FromBody] MedicalInspection medicalInspection)
         {
             await MedicalInspectionService.CreateOneAsync(medicalInspection);
-            return Created(new Uri(string.Empty), medicalInspection);
+            return StatusCode(StatusCodes.Status201Created);
         }
 
         [HttpPut]

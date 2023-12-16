@@ -1,6 +1,8 @@
 ﻿using BusStation.API.Services.Abstract;
 using BusStation.API.Data.Abstract;
 using BusStation.Common.Models;
+using BusStation.API.Exceptions;
+using BusStation.API.Data;
 
 namespace BusStation.API.Services
 {
@@ -25,17 +27,29 @@ namespace BusStation.API.Services
 
         public async Task CreateOneAsync(BusProducer producer)
         {
+            await ValidateProducerAsync(producer);
             await BusProducerRepository.CreateOneAsync(producer);
         }
 
         public async Task UpdateByIdAsync(BusProducer producer)
         {
+            await ValidateProducerAsync(producer);
             await BusProducerRepository.UpdateByIdAsync(producer);
         }
 
         public async Task DeleteByIdAsync(int id)
         {
             await BusProducerRepository.DeleteByIdAsync(id);
+        }
+
+        private async Task ValidateProducerAsync(BusProducer producer)
+        {
+            BusProducer potentialProducer = await BusProducerRepository.GetByTitleAsync(producer.Title);
+
+            if (potentialProducer.Id != -1)
+            {
+                throw new UprocessibleEntityException("There is such a producer with this title!");
+            }
         }
     }
 }

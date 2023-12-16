@@ -30,13 +30,15 @@ namespace BusStation.API.Controllers
         [HttpPost]
         public async Task<ActionResult> CreateOneAsync([FromBody] BusProducer busProducer)
         {
+            TryValidateModel(busProducer);
             await BusProducerService.CreateOneAsync(busProducer);
-            return Created(new Uri(string.Empty), busProducer);
+            return StatusCode(StatusCodes.Status201Created);
         }
 
         [HttpPut]
         public async Task<ActionResult> UpdateByIdAsync([FromBody] BusProducer busProducer)
         {
+            TryValidateModel(busProducer);
             await BusProducerService.UpdateByIdAsync(busProducer);
             return Ok();
         }

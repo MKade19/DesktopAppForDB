@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET6_0;NETCOREAPP
 D:\My_documents\practice\c#\BusStation\BusStation\BusStation.UI\App.xaml
-11407045341
+121335098423
 
-5358602621
-194-48184937
-MainWindow.xaml;
+57793364786
+197529027503
+MainWindow.xaml;Views\BusModelView.xaml;Views\BusProducerView.xaml;Views\BusRouteView.xaml;Views\BusView.xaml;Views\LoginView.xaml;Views\MedicalInspectionView.xaml;Views\PositionView.xaml;Views\RepairmentView.xaml;Views\TechnicalInspectionView.xaml;Views\VoyageView.xaml;Views\WorkerView.xaml;
 
 True
 

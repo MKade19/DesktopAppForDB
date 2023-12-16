@@ -90,6 +90,32 @@ namespace BusStation.API.Data
             return worker ?? new Worker();
         }
 
+        public async Task<IEnumerable<Worker>> GetByPosition(string positionTitle)
+        {
+            string sqlExpression = "usp_select_workers_by_position";
+            await _connection.OpenAsync();
+
+            SqlCommand command = new SqlCommand(sqlExpression, _connection);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.Add(new SqlParameter("positionTitle", positionTitle));
+            List<Worker> workers = new List<Worker>();
+
+            using (SqlDataReader reader = await command.ExecuteReaderAsync())
+            {
+                if (reader.HasRows)
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        workers.Add(GetWorkerFromReader(reader));
+                    }
+                }
+            }
+
+            await _connection.CloseAsync();
+
+            return workers;
+        }
+
         public async Task UpdateByIdAsync(Worker worker)
         {
             string sqlExpression = "usp_update_worker_by_id";
@@ -113,7 +139,8 @@ namespace BusStation.API.Data
             DateTime birthDate = reader.GetDateTime("birth_date");
             int experience = reader.GetInt32("experience");
             int positionId = reader.GetInt32("position_id");
-            return new Worker(id, fullname, birthDate, experience, positionId);
+            string positionName = reader.GetString("position_title");
+            return new Worker(id, fullname, birthDate, experience, positionId, positionName);
         }
     }
 }

@@ -1,9 +1,10 @@
 ﻿<Application x:Class="BusStation.UI.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:BusStation.UI"
+             xmlns:local="clr-namespace:BusStation.UI" xmlns:converters="clr-namespace:BusStation.UI.Converters"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <converters:BoolToCollapsedConverter x:Key="BoolToCollapsedConverter"/>
+        <converters:BoolToVisibleConverter x:Key="BoolToVisibleConverter"/>
     </Application.Resources>
 </Application>

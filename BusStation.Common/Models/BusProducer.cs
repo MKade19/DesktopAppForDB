@@ -1,17 +1,20 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace BusStation.Common.Models
 {
     public class BusProducer
     {
         [JsonPropertyName ("id")]
-        public int Id { get; } = -1;
+        public int Id { get; set; } = -1;
 
         [JsonPropertyName ("title")]
-        public string Title { get; } = string.Empty;
+        [Required]
+        public string Title { get; set; } = string.Empty;
 
         [JsonPropertyName("town")]
-        public string Town { get; } = string.Empty;
+        [Required]
+        public string Town { get; set; } = string.Empty;
 
         [JsonConstructor]
         public BusProducer(int id, string title, string town)
@@ -22,5 +25,10 @@ namespace BusStation.Common.Models
         }
 
         public BusProducer() { }
+
+        public override string ToString()
+        {
+            return $"{Title} ({Town})";
+        }
     }
 }

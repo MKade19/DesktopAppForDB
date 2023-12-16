@@ -3,10 +3,54 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:BusStation.UI"
+        xmlns:viewModels="clr-namespace:BusStation.UI.ViewModels"
+        xmlns:views="clr-namespace:BusStation.UI.Views"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Главное окно" Height="530" Width="1100">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="67*"/>
+            <ColumnDefinition Width="1033*"/>
+        </Grid.ColumnDefinitions>
+        <Menu Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.ColumnSpan="2" Width="1100" FontSize="14">
+            <MenuItem Header="Отчеты"/>
+            <MenuItem Header="Выйти"/>
+        </Menu>
+        <TabControl x:Name="MainWindowContainer"
+                    SelectedIndex="0" Grid.ColumnSpan="2" Margin="0,30,0,0"
+                    >
+            <TabItem Visibility="Collapsed">
+                <views:LoginView/>
+            </TabItem>
+            <TabItem Visibility="Collapsed">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="15.061"/>
+                        <ColumnDefinition Width="0"/>
+                        <ColumnDefinition Width="284.939"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Margin="5,5,5,5" Grid.ColumnSpan="3">
+                        <Label Content="Выбор таблицы" FontSize="16" FontWeight="Bold"/>
+                        <ListBox x:Name="TablesListBox" Padding="0,5,0,5" Height="317" FontSize="18" SelectionChanged="TablesListBox_SelectionChanged">
+                            <ListBoxItem Background="LightGray" Content="Производители автобусов"/>
+                            <ListBoxItem Content="Модели автобусов"/>
+                            <ListBoxItem Background="LightGray" Content="Автобусы"/>
+                            <ListBoxItem Content="Маршруты"/>
+                            <ListBoxItem Background="LightGray" Content="Должности"/>
+                            <ListBoxItem Content="Сотрудники"/>
+                            <ListBoxItem Background="LightGray" Content="Медосмотры"/>
+                            <ListBoxItem Content="Техосмотры"/>
+                            <ListBoxItem Background="LightGray" Content="Ремонты"/>
+                            <ListBoxItem Content="Рейсы"/>
+                        </ListBox>
+                    </StackPanel>
+
+                    <ContentControl Grid.Column="3" x:Name="ViewContainer"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
 
     </Grid>
 </Window>

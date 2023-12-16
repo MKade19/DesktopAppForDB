@@ -17,38 +17,59 @@ namespace BusStation.API.Data
         public async Task CreateOneAsync(BusProducer producer)
         {
             string sqlExpression = "usp_create_bus_producer";
-            await _connection.OpenAsync();
 
-            SqlCommand command = new SqlCommand(sqlExpression, _connection);
-            command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.Add(new SqlParameter("title", producer.Title));
-            command.Parameters.Add(new SqlParameter("town", producer.Town));
+            try 
+            {
+                await _connection.OpenAsync();
 
-            await command.ExecuteNonQueryAsync();
-            await _connection.CloseAsync();
+                SqlCommand command = new SqlCommand(sqlExpression, _connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add(new SqlParameter("title", producer.Title));
+                command.Parameters.Add(new SqlParameter("town", producer.Town));
+
+                await command.ExecuteNonQueryAsync();
+            }
+            catch (Exception) 
+            {
+                throw;
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
         }
 
         public async Task<IEnumerable<BusProducer>> GetAllAsync()
         {
             string sqlExpression = "usp_select_bus_producers";
-            await _connection.OpenAsync();
-
-            SqlCommand command = new SqlCommand(sqlExpression, _connection);
-            command.CommandType = CommandType.StoredProcedure;
             List<BusProducer> busProducers = new List<BusProducer>();
 
-            using (SqlDataReader reader = await command.ExecuteReaderAsync())
+            try
             {
-                if (reader.HasRows)
+                await _connection.OpenAsync();
+
+                SqlCommand command = new SqlCommand(sqlExpression, _connection);
+                command.CommandType = CommandType.StoredProcedure;
+
+                using (SqlDataReader reader = await command.ExecuteReaderAsync())
                 {
-                    while (await reader.ReadAsync())
+                    if (reader.HasRows)
                     {
-                        busProducers.Add(GetProducerFromReader(reader));
+                        while (await reader.ReadAsync())
+                        {
+                            busProducers.Add(GetProducerFromReader(reader));
+                        }
                     }
                 }
             }
-
-            await _connection.CloseAsync();
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
 
             return busProducers;
         }
@@ -56,23 +77,69 @@ namespace BusStation.API.Data
         public async Task<BusProducer> GetByIdAsync(int id)
         {
             string sqlExpression = "usp_select_bus_producer_by_id";
-            await _connection.OpenAsync();
+            BusProducer? busProducer = null;
 
-            SqlCommand command = new SqlCommand(sqlExpression, _connection);
-            command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.Add(new SqlParameter("id", id));
-            BusProducer busProducer = null;
-
-            using (SqlDataReader reader = await command.ExecuteReaderAsync())
+            try
             {
-                if (reader.HasRows)
+                await _connection.OpenAsync();
+
+                SqlCommand command = new SqlCommand(sqlExpression, _connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add(new SqlParameter("id", id));
+                
+                using (SqlDataReader reader = await command.ExecuteReaderAsync())
                 {
-                    await reader.ReadAsync();
-                    busProducer = GetProducerFromReader(reader);
+                    if (reader.HasRows)
+                    {
+                        await reader.ReadAsync();
+                        busProducer = GetProducerFromReader(reader);
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
 
-            await _connection.CloseAsync();
+            
+            return busProducer ?? new BusProducer();
+        }
+
+        public async Task<BusProducer> GetByTitleAsync(string title)
+        {
+            string sqlExpression = "usp_select_bus_producer_by_title";
+            BusProducer? busProducer = null;
+
+            try
+            {
+                await _connection.OpenAsync();
+
+                SqlCommand command = new SqlCommand(sqlExpression, _connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add(new SqlParameter("title", title));
+
+                using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                {
+                    if (reader.HasRows)
+                    {
+                        await reader.ReadAsync();
+                        busProducer = GetProducerFromReader(reader);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
+
 
             return busProducer ?? new BusProducer();
         }

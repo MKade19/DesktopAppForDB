@@ -1,5 +1,6 @@
 using BusStation.API.Data;
 using BusStation.API.Data.Abstract;
+using BusStation.API.Middlewares;
 using BusStation.API.Services;
 using BusStation.API.Services.Abstract;
 
@@ -7,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+builder.Services.AddTransient<GlobalExceptionHandlerMiddleware>();
 builder.Services.AddTransient<IBusProducerRepository, BusProducerRepository>();
 builder.Services.AddTransient<IBusModelRepository, BusModelRepository>();
 builder.Services.AddTransient<IBusRepository, BusRepository>();
@@ -36,8 +38,12 @@ var app = builder.Build();
 
 app.UseHttpsRedirection();
 
+app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
+
 app.UseAuthorization();
 
 app.MapControllers();
 
 app.Run();
+
+

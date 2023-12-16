@@ -5,28 +5,49 @@ namespace BusStation.Common.Models
     public class Voyage
     {
         [JsonPropertyName("id")]
-        public int Id { get; } = -1;
+        public int Id { get; set; } = -1;
 
-        [JsonPropertyName("voyageDate")]
-        public DateTime VoyageDate { get; } = DateTime.MinValue;
+        [JsonPropertyName("voyage_date")]
+        public DateTime VoyageDate { get; set; } = DateTime.Today;
 
-        [JsonPropertyName("departureTime")]
-        public TimeSpan DepartureTime { get; } = TimeSpan.Zero;
+        [JsonPropertyName("departure_time")]
+        public DateTime DepartureTime { get; set; } = DateTime.Today;
 
-        [JsonPropertyName("arrivalTime")]
-        public TimeSpan ArrivalTime { get; } = TimeSpan.Zero;
+        [JsonPropertyName("arrival_time")]
+        public DateTime ArrivalTime { get; set; } = DateTime.Today;
 
-        [JsonPropertyName("routeId")]
-        public int BusRouteId { get; } = -1;
+        [JsonPropertyName("route_id")]
+        public int BusRouteId { get; set; } = -1;
 
-        [JsonPropertyName("workerId")]
-        public int WorkerId { get; } = -1;
+        [JsonPropertyName("route_number")]
+        public string? BusRouteNumber { get; set; }
 
-        [JsonPropertyName("busId")]
-        public int BusId { get; } = -1;
+        [JsonPropertyName("worker_id")]
+        public int WorkerId { get; set; } = -1;
+
+        [JsonPropertyName("worker_name")]
+        public string? WorkerName { get; set; }
+
+        [JsonPropertyName("bus_id")]
+        public int BusId { get; set; } = -1;
+
+        [JsonPropertyName("bus_number")]
+        public string? BusNumber { get; set; }
 
         [JsonConstructor]
-        public Voyage(int id, DateTime voyageDate, TimeSpan departureTime, TimeSpan arrivalTime, int busRouteId, int workerId, int busId)
+        public Voyage
+        (
+            int id, 
+            DateTime voyageDate,
+            DateTime departureTime,
+            DateTime arrivalTime, 
+            int busRouteId, 
+            int workerId, 
+            int busId,
+            string? busRouteNumber,
+            string? workerName,
+            string? busNumber
+        )
         {
             Id = id;
             VoyageDate = voyageDate;
@@ -35,6 +56,9 @@ namespace BusStation.Common.Models
             BusRouteId = busRouteId;
             WorkerId = workerId;
             BusId = busId;
+            BusRouteNumber = busRouteNumber;
+            BusNumber = busNumber;
+            WorkerName = workerName;
         }
 
         public Voyage() { }

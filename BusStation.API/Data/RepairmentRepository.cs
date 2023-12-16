@@ -2,7 +2,6 @@
 using BusStation.Common.Models;
 using Microsoft.Data.SqlClient;
 using System.Data;
-using System.Reflection;
 
 namespace BusStation.API.Data
 {
@@ -118,7 +117,19 @@ namespace BusStation.API.Data
             int workerId = reader.GetInt32("worker_id");
             int busId = reader.GetInt32("bus_id");
             string malfunction = reader.GetString("malfunction");
-            return new Repairment(id, beginDate, endDate, workerId, busId, malfunction);
+            string workerName = reader.GetString("worker_fullname");
+            string busNumber = reader.GetString("state_number");
+            return new Repairment
+            (
+                id, 
+                beginDate, 
+                endDate, 
+                workerId, 
+                busId, 
+                malfunction, 
+                workerName, 
+                busNumber
+            );
         }
     }
 }

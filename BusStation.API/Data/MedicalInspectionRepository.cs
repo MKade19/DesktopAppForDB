@@ -2,8 +2,6 @@
 using BusStation.Common.Models;
 using Microsoft.Data.SqlClient;
 using System.Data;
-using System.Threading.Tasks;
-
 namespace BusStation.API.Data
 {
     public class MedicalInspectionRepository : IMedicalInspetionRepository
@@ -115,13 +113,14 @@ namespace BusStation.API.Data
             int workerId = reader.GetInt32("worker_id");
             bool isAllowed = reader.GetBoolean("is_allowed");
             string? denialReason = null;
+            string workerName = reader.GetString("worker_fullname");
 
             if (!reader.IsDBNull(4)) 
             {
                 denialReason = reader.GetString("denial_reason");
             }
              
-            return new MedicalInspection(id, inspectionDate, workerId, isAllowed, denialReason);
+            return new MedicalInspection(id, inspectionDate, workerId, isAllowed, denialReason, workerName);
         }
     }
 }

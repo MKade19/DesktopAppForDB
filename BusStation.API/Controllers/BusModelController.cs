@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BusStation.API.Services.Abstract;
 using BusStation.Common.Models;
-using BusStation.API.Services.Abstract;
-using BusStation.API.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BusStation.API.Controllers
 {
@@ -32,13 +31,15 @@ namespace BusStation.API.Controllers
         [HttpPost]
         public async Task<ActionResult> CreateOneAsync([FromBody] BusModel model)
         {
+            TryValidateModel(model);
             await BusModelService.CreateOneAsync(model);
-            return Created(new Uri(string.Empty), null);
+            return StatusCode(StatusCodes.Status201Created);
         }
 
         [HttpPut]
         public async Task<ActionResult> UpdateByIdAsync([FromBody] BusModel model)
         {
+            TryValidateModel(model);
             await BusModelService.UpdateByIdAsync(model);
             return Ok();
         }

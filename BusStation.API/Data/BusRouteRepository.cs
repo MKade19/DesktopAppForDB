@@ -1,9 +1,7 @@
 ﻿using BusStation.API.Data.Abstract;
 using BusStation.Common.Models;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.Data.SqlClient;
 using System.Data;
-using System.Reflection;
 
 namespace BusStation.API.Data
 {

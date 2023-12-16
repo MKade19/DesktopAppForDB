@@ -5,13 +5,13 @@ namespace BusStation.Common.Models
     public class Position
     {
         [JsonPropertyName("id")]
-        public int Id { get; } = -1;
+        public int Id { get; set; } = -1;
 
         [JsonPropertyName("title")]
-        public string Title { get; } = string.Empty;
+        public string Title { get; set; } = string.Empty;
 
         [JsonPropertyName("salary")]
-        public decimal Salary { get; } = 0;
+        public decimal Salary { get; set; } = 0;
 
         [JsonConstructor]
         public Position(int id, string title, decimal salary)
@@ -22,5 +22,10 @@ namespace BusStation.Common.Models
         }
 
         public Position() { }
+
+        public override string ToString()
+        {
+            return Title;
+        }
     }
 }

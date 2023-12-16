@@ -61,3 +61,6 @@ D:\My_documents\practice\c#\BusStation\BusStation\BusStation.API\obj\Debug\net6.
 D:\My_documents\practice\c#\BusStation\BusStation\BusStation.API\obj\Debug\net6.0\BusStation.API.pdb
 D:\My_documents\practice\c#\BusStation\BusStation\BusStation.API\obj\Debug\net6.0\BusStation.API.genruntimeconfig.cache
 D:\My_documents\practice\c#\BusStation\BusStation\BusStation.API\obj\Debug\net6.0\ref\BusStation.API.dll
+D:\My_documents\practice\c#\BusStation\BusStation\BusStation.API\obj\Debug\net6.0\BusStation.API.sourcelink.json
+D:\My_documents\practice\c#\BusStation\BusStation\BusStation.API\bin\Debug\net6.0\Microsoft.Extensions.DependencyInjection.dll
+D:\My_documents\practice\c#\BusStation\BusStation\BusStation.API\bin\Debug\net6.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll

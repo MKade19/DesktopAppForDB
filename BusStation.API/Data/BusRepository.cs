@@ -2,7 +2,6 @@
 using BusStation.Common.Models;
 using Microsoft.Data.SqlClient;
 using System.Data;
-using System.Reflection;
 
 namespace BusStation.API.Data
 {
@@ -16,18 +15,29 @@ namespace BusStation.API.Data
         public async Task CreateOneAsync(Bus bus)
         {
             string sqlExpression = "usp_create_bus";
-            await _connection.OpenAsync();
 
-            SqlCommand command = new SqlCommand(sqlExpression, _connection);
-            command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.Add(new SqlParameter("stateNumber", bus.StateNumber));
-            command.Parameters.Add(new SqlParameter("deliveryDate", bus.DeliveryDate));
-            command.Parameters.Add(new SqlParameter("color", bus.Color));
-            command.Parameters.Add(new SqlParameter("garageNumber", bus.GarageNumber));
-            command.Parameters.Add(new SqlParameter("modelId", bus.BusModelId));
+            try
+            {
+                await _connection.OpenAsync();
 
-            await command.ExecuteNonQueryAsync();
-            await _connection.CloseAsync();
+                SqlCommand command = new SqlCommand(sqlExpression, _connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add(new SqlParameter("stateNumber", bus.StateNumber));
+                command.Parameters.Add(new SqlParameter("deliveryDate", bus.DeliveryDate));
+                command.Parameters.Add(new SqlParameter("color", bus.Color));
+                command.Parameters.Add(new SqlParameter("garageNumber", bus.GarageNumber));
+                command.Parameters.Add(new SqlParameter("modelId", bus.BusModelId));
+
+                await command.ExecuteNonQueryAsync();
+            }
+            catch (Exception)
+            {
+                throw new Exception("nsrgj");
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
         }
 
         public async Task DeleteByIdAsync(int id)
@@ -118,7 +128,8 @@ namespace BusStation.API.Data
             string color = reader.GetString("color");
             int garageNumber = reader.GetInt32("garage_number");
             int modelId = reader.GetInt32("model_id");
-            return new Bus(id, stateNumber, deliveryDate, color, garageNumber, modelId);
+            string modelTitle = reader.GetString("model_title");
+            return new Bus(id, stateNumber, deliveryDate, color, garageNumber, modelId, modelTitle);
         }
     }
 }

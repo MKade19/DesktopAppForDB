@@ -27,11 +27,17 @@ namespace BusStation.API.Controllers
             return await WorkerService.GetByIdAsync(id);
         }
 
+        [HttpGet("position/{title}")]
+        public async Task<IEnumerable<Worker>> GetByPositionAsync(string title)
+        {
+            return await WorkerService.GetByPosition(title);
+        }
+
         [HttpPost]
         public async Task<ActionResult> CreateOneAsync([FromBody] Worker worker)
         {
             await WorkerService.CreateOneAsync(worker);
-            return Created(new Uri(string.Empty), worker);
+            return StatusCode(StatusCodes.Status201Created);
         }
 
         [HttpPut]

@@ -1,17 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BusStation.UI.Views;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace BusStation.UI
 {
@@ -23,6 +11,52 @@ namespace BusStation.UI
         public MainWindow()
         {
             InitializeComponent();
+
+            EventAggregator.Instance.UserAuthorized += Instance_UserAuthorized;
+
+            ViewContainer.Content = new BusProducerView();
+        }
+
+        private void Instance_UserAuthorized(object? sender, System.EventArgs e)
+        {
+            MainWindowContainer.SelectedIndex = 1;
+        }
+
+        private void TablesListBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            switch(TablesListBox.SelectedIndex)
+            {
+                case 0:
+                    ViewContainer.Content = new BusProducerView();                    
+                    break;
+                case 1:
+                    ViewContainer.Content = new BusModelView();
+                    break; 
+                case 2:
+                    ViewContainer.Content = new BusView();
+                    break;
+                case 3:
+                    ViewContainer.Content = new BusRouteView();
+                    break;
+                case 4:
+                    ViewContainer.Content = new PositionView();
+                    break;
+                case 5:
+                    ViewContainer.Content = new WorkerView();
+                    break;
+                case 6:
+                    ViewContainer.Content = new MedicalInspectionView();
+                    break;
+                case 7:
+                    ViewContainer.Content = new TechnicalInspectionView();
+                    break;
+                case 8:
+                    ViewContainer.Content = new RepairmentView();
+                    break;
+                case 9:
+                    ViewContainer.Content = new VoyageView();
+                    break;
+            }
         }
     }
 }

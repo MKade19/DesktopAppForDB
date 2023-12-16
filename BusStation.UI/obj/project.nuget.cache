@@ -1,13 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "57UO6uc0FOcgje5UHktjPMVaXbR2V5yRQSxtdAn3SJ8TSeepEzi6qAi8kJ0nACJA4QjFHd04X8Yt5n5+bwxz4A==",
+  "dgSpecHash": "Nw5keqUqhk3oJacbUwD3Vq1Sihae6xECzXw2X5wFo4L60qufQRyDTO53x1dko/Uo2W0JWuVUszypoosfpgYnEQ==",
   "success": true,
   "projectFilePath": "D:\\My_documents\\practice\\c#\\BusStation\\BusStation\\BusStation.UI\\BusStation.UI.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Максим\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.25\\microsoft.windowsdesktop.app.ref.6.0.25.nupkg.sha512",
-    "C:\\Users\\Максим\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.25\\microsoft.netcore.app.ref.6.0.25.nupkg.sha512",
-    "C:\\Users\\Максим\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.25\\microsoft.aspnetcore.app.ref.6.0.25.nupkg.sha512",
-    "C:\\Users\\Максим\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\6.0.25\\microsoft.netcore.app.host.win-x64.6.0.25.nupkg.sha512"
+    "C:\\Users\\Максим\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\8.0.0\\microsoft.extensions.dependencyinjection.8.0.0.nupkg.sha512",
+    "C:\\Users\\Максим\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\8.0.0\\microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512"
   ],
   "logs": []
 }
