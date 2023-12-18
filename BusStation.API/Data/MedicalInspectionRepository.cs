@@ -14,53 +14,85 @@ namespace BusStation.API.Data
         public async Task CreateOneAsync(MedicalInspection medicalInspection)
         {
             string sqlExpression = "usp_create_medical_inspection";
-            await _connection.OpenAsync();
 
-            SqlCommand command = new SqlCommand(sqlExpression, _connection);
-            command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.Add(new SqlParameter("inspectionDate", medicalInspection.InspectionDate));
-            command.Parameters.Add(new SqlParameter("workerId", medicalInspection.WorkerId));
-            command.Parameters.Add(new SqlParameter("isAllowed", medicalInspection.IsAllowed));
-            command.Parameters.Add(new SqlParameter("denialReason", medicalInspection.DenialReason == null ? DBNull.Value : medicalInspection.DenialReason));
+            try
+            {
+                await _connection.OpenAsync();
 
-            await command.ExecuteNonQueryAsync();
-            await _connection.CloseAsync();
+                SqlCommand command = new SqlCommand(sqlExpression, _connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add(new SqlParameter("inspectionDate", medicalInspection.InspectionDate));
+                command.Parameters.Add(new SqlParameter("workerId", medicalInspection.WorkerId));
+                command.Parameters.Add(new SqlParameter("isAllowed", medicalInspection.IsAllowed));
+                command.Parameters.Add(new SqlParameter("denialReason", medicalInspection.DenialReason == null ? DBNull.Value : medicalInspection.DenialReason));
+
+                await command.ExecuteNonQueryAsync();
+            }
+            catch (Exception) 
+            {
+                throw;
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
         }
 
         public async Task DeleteByIdAsync(int id)
         {
             string sqlExpression = "usp_delete_medical_inspection_by_id";
-            await _connection.OpenAsync();
 
-            SqlCommand command = new SqlCommand(sqlExpression, _connection);
-            command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.Add(new SqlParameter("id", id));
+            try
+            {
+                await _connection.OpenAsync();
 
-            await command.ExecuteNonQueryAsync();
-            await _connection.CloseAsync();
+                SqlCommand command = new SqlCommand(sqlExpression, _connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add(new SqlParameter("id", id));
+
+                await command.ExecuteNonQueryAsync();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
         }
 
         public async Task<IEnumerable<MedicalInspection>> GetAllAsync()
         {
             string sqlExpression = "usp_select_medical_inspections";
-            await _connection.OpenAsync();
-
-            SqlCommand command = new SqlCommand(sqlExpression, _connection);
-            command.CommandType = CommandType.StoredProcedure;
             List<MedicalInspection> medicalInspections = new List<MedicalInspection>();
 
-            using (SqlDataReader reader = await command.ExecuteReaderAsync())
+            try
             {
-                if (reader.HasRows)
+                await _connection.OpenAsync();
+
+                SqlCommand command = new SqlCommand(sqlExpression, _connection);
+                command.CommandType = CommandType.StoredProcedure;
+
+                using (SqlDataReader reader = await command.ExecuteReaderAsync())
                 {
-                    while (await reader.ReadAsync())
+                    if (reader.HasRows)
                     {
-                        medicalInspections.Add(GetMedicalInspectionFromReader(reader));
+                        while (await reader.ReadAsync())
+                        {
+                            medicalInspections.Add(GetMedicalInspectionFromReader(reader));
+                        }
                     }
                 }
             }
-
-            await _connection.CloseAsync();
+            catch (Exception) 
+            {  
+                throw;
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
 
             return medicalInspections;
         }
@@ -68,23 +100,33 @@ namespace BusStation.API.Data
         public async Task<MedicalInspection> GetByIdAsync(int id)
         {
             string sqlExpression = "usp_select_medical_inspection_by_id";
-            await _connection.OpenAsync();
+            MedicalInspection? medicalInspection = null;
 
-            SqlCommand command = new SqlCommand(sqlExpression, _connection);
-            command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.Add(new SqlParameter("id", id));
-            MedicalInspection medicalInspection = null;
-
-            using (SqlDataReader reader = await command.ExecuteReaderAsync())
+            try
             {
-                if (reader.HasRows)
+                await _connection.OpenAsync();
+
+                SqlCommand command = new SqlCommand(sqlExpression, _connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add(new SqlParameter("id", id));
+
+                using (SqlDataReader reader = await command.ExecuteReaderAsync())
                 {
-                    await reader.ReadAsync();
-                    medicalInspection = GetMedicalInspectionFromReader(reader);
+                    if (reader.HasRows)
+                    {
+                        await reader.ReadAsync();
+                        medicalInspection = GetMedicalInspectionFromReader(reader);
+                    }
                 }
             }
-
-            await _connection.CloseAsync();
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
 
             return medicalInspection ?? new MedicalInspection();
         }
@@ -92,18 +134,29 @@ namespace BusStation.API.Data
         public async Task UpdateByIdAsync(MedicalInspection medicalInspection)
         {
             string sqlExpression = "usp_update_medical_inspection_by_id";
-            await _connection.OpenAsync();
 
-            SqlCommand command = new SqlCommand(sqlExpression, _connection);
-            command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.Add(new SqlParameter("id", medicalInspection.Id));
-            command.Parameters.Add(new SqlParameter("inspectionDate", medicalInspection.InspectionDate));
-            command.Parameters.Add(new SqlParameter("workerId", medicalInspection.WorkerId));
-            command.Parameters.Add(new SqlParameter("isAllowed", medicalInspection.IsAllowed));
-            command.Parameters.Add(new SqlParameter("denialReason", medicalInspection.DenialReason == null ? DBNull.Value : medicalInspection.DenialReason));
+            try
+            {
+                await _connection.OpenAsync();
 
-            await command.ExecuteNonQueryAsync();
-            await _connection.CloseAsync();
+                SqlCommand command = new SqlCommand(sqlExpression, _connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add(new SqlParameter("id", medicalInspection.Id));
+                command.Parameters.Add(new SqlParameter("inspectionDate", medicalInspection.InspectionDate));
+                command.Parameters.Add(new SqlParameter("workerId", medicalInspection.WorkerId));
+                command.Parameters.Add(new SqlParameter("isAllowed", medicalInspection.IsAllowed));
+                command.Parameters.Add(new SqlParameter("denialReason", medicalInspection.DenialReason == null ? DBNull.Value : medicalInspection.DenialReason));
+
+                await command.ExecuteNonQueryAsync();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
         }
 
         private MedicalInspection GetMedicalInspectionFromReader(SqlDataReader reader)

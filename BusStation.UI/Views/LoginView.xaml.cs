@@ -14,10 +14,9 @@ namespace BusStation.UI.Views
             DataContext = new LoginViewModel();
         }
 
-        private void SignInButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        private async void SignInButton_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            //How to reach tab 1?
-
+            await ((LoginViewModel)DataContext).LoginAsync();
             EventAggregator.Instance.RaiseUserAuthorizedEvent();
         }
     }

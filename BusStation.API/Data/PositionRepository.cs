@@ -88,6 +88,41 @@ namespace BusStation.API.Data
             return position ?? new Position();
         }
 
+        public async Task<Position> GetByTitleAsync(string title)
+        {
+            string sqlExpression = "usp_select_position_by_title";
+            Position? position = null;
+
+            try
+            {
+                await _connection.OpenAsync();
+
+                SqlCommand command = new SqlCommand(sqlExpression, _connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add(new SqlParameter("title", title));
+
+                using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                {
+                    if (reader.HasRows)
+                    {
+                        await reader.ReadAsync();
+                        position = GetPositionFromReader(reader);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
+
+
+            return position ?? new Position();
+        }
+
         public async Task UpdateByIdAsync(Position position)
         {
             string sqlExpression = "usp_update_position_by_id";

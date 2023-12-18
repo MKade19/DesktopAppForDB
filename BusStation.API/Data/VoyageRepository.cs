@@ -15,55 +15,88 @@ namespace BusStation.API.Data
         public async Task CreateOneAsync(Voyage voyage)
         {
             string sqlExpression = "usp_create_voyage";
-            await _connection.OpenAsync();
 
-            SqlCommand command = new SqlCommand(sqlExpression, _connection);
-            command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.Add(new SqlParameter("voyageDate", voyage.VoyageDate));
-            command.Parameters.Add(new SqlParameter("departureTime", voyage.DepartureTime));
-            command.Parameters.Add(new SqlParameter("arrivalTime", voyage.ArrivalTime));
-            command.Parameters.Add(new SqlParameter("routeId", voyage.BusRouteId));
-            command.Parameters.Add(new SqlParameter("workerId", voyage.WorkerId));
-            command.Parameters.Add(new SqlParameter("busId", voyage.BusId));
+            try
+            {
+                await _connection.OpenAsync();
 
-            await command.ExecuteNonQueryAsync();
-            await _connection.CloseAsync();
+                SqlCommand command = new SqlCommand(sqlExpression, _connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add(new SqlParameter("voyageDate", voyage.VoyageDate));
+                command.Parameters.Add(new SqlParameter("departureTime", voyage.DepartureTime));
+                command.Parameters.Add(new SqlParameter("arrivalTime", voyage.ArrivalTime));
+                command.Parameters.Add(new SqlParameter("routeId", voyage.BusRouteId));
+                command.Parameters.Add(new SqlParameter("workerId", voyage.WorkerId));
+                command.Parameters.Add(new SqlParameter("busId", voyage.BusId));
+
+                await command.ExecuteNonQueryAsync();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
         }
 
         public async Task DeleteByIdAsync(int id)
         {
             string sqlExpression = "usp_delete_voyage_by_id";
-            await _connection.OpenAsync();
 
-            SqlCommand command = new SqlCommand(sqlExpression, _connection);
-            command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.Add(new SqlParameter("id", id));
+            try
+            {
+                await _connection.OpenAsync();
 
-            await command.ExecuteNonQueryAsync();
-            await _connection.CloseAsync();
+                SqlCommand command = new SqlCommand(sqlExpression, _connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add(new SqlParameter("id", id));
+
+                await command.ExecuteNonQueryAsync();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
         }
 
         public async Task<IEnumerable<Voyage>> GetAllAsync()
         {
             string sqlExpression = "usp_select_voyages";
-            await _connection.OpenAsync();
-
-            SqlCommand command = new SqlCommand(sqlExpression, _connection);
-            command.CommandType = CommandType.StoredProcedure;
             List<Voyage> voyages = new List<Voyage>();
 
-            using (SqlDataReader reader = await command.ExecuteReaderAsync())
+            try
             {
-                if (reader.HasRows)
+                await _connection.OpenAsync();
+
+                SqlCommand command = new SqlCommand(sqlExpression, _connection);
+                command.CommandType = CommandType.StoredProcedure;
+
+                using (SqlDataReader reader = await command.ExecuteReaderAsync())
                 {
-                    while (await reader.ReadAsync())
+                    if (reader.HasRows)
                     {
-                        voyages.Add(GetVoyageFromReader(reader));
+                        while (await reader.ReadAsync())
+                        {
+                            voyages.Add(GetVoyageFromReader(reader));
+                        }
                     }
                 }
             }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                await _connection.CloseAsync();
 
-            await _connection.CloseAsync();
+            }
 
             return voyages;
         }
@@ -71,23 +104,33 @@ namespace BusStation.API.Data
         public async Task<Voyage> GetByIdAsync(int id)
         {
             string sqlExpression = "usp_select_voyage_by_id";
-            await _connection.OpenAsync();
+            Voyage? voyage = null;
 
-            SqlCommand command = new SqlCommand(sqlExpression, _connection);
-            command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.Add(new SqlParameter("id", id));
-            Voyage voyage = null;
-
-            using (SqlDataReader reader = await command.ExecuteReaderAsync())
+            try
             {
-                if (reader.HasRows)
+                await _connection.OpenAsync();
+
+                SqlCommand command = new SqlCommand(sqlExpression, _connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add(new SqlParameter("id", id));
+
+                using (SqlDataReader reader = await command.ExecuteReaderAsync())
                 {
-                    await reader.ReadAsync();
-                    voyage = GetVoyageFromReader(reader);
+                    if (reader.HasRows)
+                    {
+                        await reader.ReadAsync();
+                        voyage = GetVoyageFromReader(reader);
+                    }
                 }
             }
-
-            await _connection.CloseAsync();
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
 
             return voyage ?? new Voyage();
         }
@@ -95,20 +138,31 @@ namespace BusStation.API.Data
         public async Task UpdateByIdAsync(Voyage voyage)
         {
             string sqlExpression = "usp_update_voyage_by_id";
-            await _connection.OpenAsync();
 
-            SqlCommand command = new SqlCommand(sqlExpression, _connection);
-            command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.Add(new SqlParameter("id", voyage.Id));
-            command.Parameters.Add(new SqlParameter("voyageDate", voyage.VoyageDate));
-            command.Parameters.Add(new SqlParameter("departureTime", voyage.DepartureTime));
-            command.Parameters.Add(new SqlParameter("arrivalTime", voyage.ArrivalTime));
-            command.Parameters.Add(new SqlParameter("routeId", voyage.BusRouteId));
-            command.Parameters.Add(new SqlParameter("workerId", voyage.WorkerId));
-            command.Parameters.Add(new SqlParameter("busId", voyage.BusId));
+            try
+            {
+                await _connection.OpenAsync();
 
-            await command.ExecuteNonQueryAsync();
-            await _connection.CloseAsync();
+                SqlCommand command = new SqlCommand(sqlExpression, _connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add(new SqlParameter("id", voyage.Id));
+                command.Parameters.Add(new SqlParameter("voyageDate", voyage.VoyageDate));
+                command.Parameters.Add(new SqlParameter("departureTime", voyage.DepartureTime));
+                command.Parameters.Add(new SqlParameter("arrivalTime", voyage.ArrivalTime));
+                command.Parameters.Add(new SqlParameter("routeId", voyage.BusRouteId));
+                command.Parameters.Add(new SqlParameter("workerId", voyage.WorkerId));
+                command.Parameters.Add(new SqlParameter("busId", voyage.BusId));
+
+                await command.ExecuteNonQueryAsync();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
         }
 
         private Voyage GetVoyageFromReader(SqlDataReader reader)

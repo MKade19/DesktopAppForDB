@@ -1,8 +1,7 @@
-﻿using BusStation.API.Services.Abstract;
-using BusStation.API.Data.Abstract;
-using BusStation.Common.Models;
+﻿using BusStation.API.Data.Abstract;
 using BusStation.API.Exceptions;
-using BusStation.API.Data;
+using BusStation.API.Services.Abstract;
+using BusStation.Common.Models;
 
 namespace BusStation.API.Services
 {
@@ -48,7 +47,7 @@ namespace BusStation.API.Services
 
             if (potentialProducer.Id != -1)
             {
-                throw new UprocessibleEntityException("There is such a producer with this title!");
+                throw new BadRequestException("There is such a producer with this title!");
             }
         }
     }

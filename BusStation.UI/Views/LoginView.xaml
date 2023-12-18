@@ -10,18 +10,20 @@
     <Grid FocusManager.FocusedElement="{Binding ElementName=LoginBox}" HorizontalAlignment="Center" VerticalAlignment="Center" Height="356" Width="524" RenderTransformOrigin="0.5,0.5">
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Height="336" Width="524">
             <Label Content="Авторизация" HorizontalAlignment="Center" FontSize="36" Height="75"/>
-            
-            <StackPanel Orientation="Horizontal" Width="524" Height="44">
-                <Label Target="{Binding ElementName=LoginBox}" Content="Логин" FontSize="24" Height="45" Width="136" />
-                <TextBox x:Name="LoginBox" Text="{Binding Login, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="24" Width="255" Height="36"/>
+
+            <StackPanel Orientation="Horizontal" Width="524" Height="76">
+                <Label Target="{Binding ElementName=LoginBox}" FontSize="24" Height="72" Width="186">
+                    <TextBlock TextWrapping="Wrap" Text="Имя пользователя" Height="60" Width="174"/>
+                </Label>
+                <TextBox x:Name="LoginBox" Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="24" Width="255" Height="36"/>
             </StackPanel>
-            
+
             <StackPanel Orientation="Horizontal" Width="522" Height="51">
-                <Label Target="{Binding ElementName=PasswordBox}" Content="Пароль" FontSize="24" Height="45" Width="135" />
+                <Label Target="{Binding ElementName=PasswordBox}" Content="Пароль" FontSize="24" Height="45" Width="184" />
                 <TextBox x:Name="PasswordBox" Text="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="24" Width="255" Height="35"/>
             </StackPanel>
         </StackPanel>
-        
+
         <Button x:Name="SignInButton" 
                 Content="Войти" 
                 Height="56" VerticalAlignment="Top" HorizontalAlignment="Center" Width="164" Margin="0,227,0,0" FontSize="24" Click="SignInButton_Click"/>

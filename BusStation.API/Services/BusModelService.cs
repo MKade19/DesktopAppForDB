@@ -50,12 +50,12 @@ namespace BusStation.API.Services
 
             if (potentialModel.Id != -1)
             {
-                throw new UprocessibleEntityException("There is such a model with this title!");
+                throw new BadRequestException("There is such a model with this title!");
             }
 
             if (busProducer.Id == -1)
             {
-                throw new UprocessibleEntityException("There is no such a producer!");
+                throw new BadRequestException("There is no such a producer!");
             }
         }
     }

@@ -1,4 +1,6 @@
-﻿using BusStation.API.Data.Abstract;
+﻿using BusStation.API.Data;
+using BusStation.API.Data.Abstract;
+using BusStation.API.Exceptions;
 using BusStation.API.Services.Abstract;
 using BusStation.Common.Models;
 
@@ -7,14 +9,17 @@ namespace BusStation.API.Services
     public class WorkerService : IWorkerService
     {  
         private IWorkerRepository WorkerRepository { get; }
+        private IPositionRepository PositionRepository { get; }
 
-        public WorkerService(IWorkerRepository workerRepository)
+        public WorkerService(IWorkerRepository workerRepository, IPositionRepository positionRepository)
         {
             WorkerRepository = workerRepository;
+            PositionRepository = positionRepository;
         }
         public async Task CreateOneAsync(Worker worker)
         {
-           await WorkerRepository.CreateOneAsync(worker);
+            await ValidateWorkerAsync(worker);
+            await WorkerRepository.CreateOneAsync(worker);
         }
 
         public async Task DeleteByIdAsync(int id)
@@ -32,14 +37,30 @@ namespace BusStation.API.Services
             return await WorkerRepository.GetByIdAsync(id);
         }
 
-        public async Task UpdateByIdAsync(Worker entity)
+        public async Task UpdateByIdAsync(Worker worker)
         {
-            await WorkerRepository.UpdateByIdAsync(entity);
+            await ValidateWorkerAsync(worker);
+            await WorkerRepository.UpdateByIdAsync(worker);
         }
 
         public async Task<IEnumerable<Worker>> GetByPosition(string positionTitle)
         {
             return await WorkerRepository.GetByPosition(positionTitle);
+        }
+        private async Task ValidateWorkerAsync(Worker worker)
+        {
+            Worker potentialWorker = await WorkerRepository.GetByNameAsync(worker.Fullname);
+            Position position = await PositionRepository.GetByIdAsync(worker.PositionId);
+
+            if (potentialWorker.Id != -1)
+            {
+                throw new BadRequestException("There is such a worker with this name!");
+            }
+
+            if (position.Id == -1)
+            {
+                throw new BadRequestException("There is no such a position!");
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using BusStation.UI.Views;
+﻿using BusStation.UI.ViewModels;
+using BusStation.UI.Views;
 using System.Windows;
 
 namespace BusStation.UI
@@ -11,15 +12,14 @@ namespace BusStation.UI
         public MainWindow()
         {
             InitializeComponent();
-
+            DataContext = new MainViewModel();
             EventAggregator.Instance.UserAuthorized += Instance_UserAuthorized;
-
-            ViewContainer.Content = new BusProducerView();
         }
 
         private void Instance_UserAuthorized(object? sender, System.EventArgs e)
         {
             MainWindowContainer.SelectedIndex = 1;
+            LogoutButton.IsEnabled = true;
         }
 
         private void TablesListBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
@@ -57,6 +57,13 @@ namespace BusStation.UI
                     ViewContainer.Content = new VoyageView();
                     break;
             }
+        }
+
+        private void LogoutButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindowContainer.SelectedIndex = 0;
+            Properties.Settings.Default.AccessToken = null;
+            LogoutButton.IsEnabled = false;
         }
     }
 }

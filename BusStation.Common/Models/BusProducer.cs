@@ -6,14 +6,17 @@ namespace BusStation.Common.Models
     public class BusProducer
     {
         [JsonPropertyName ("id")]
+        [Required]
         public int Id { get; set; } = -1;
 
         [JsonPropertyName ("title")]
         [Required]
+        [StringLength (30)]
         public string Title { get; set; } = string.Empty;
 
         [JsonPropertyName("town")]
         [Required]
+        [StringLength(20)]
         public string Town { get; set; } = string.Empty;
 
         [JsonConstructor]

@@ -1,4 +1,5 @@
 ﻿using BusStation.API.Data.Abstract;
+using BusStation.API.Exceptions;
 using BusStation.API.Services.Abstract;
 using BusStation.Common.Models;
 
@@ -14,6 +15,7 @@ namespace BusStation.API.Services
 
         public async Task CreateOneAsync(BusRoute route)
         {
+            ValidateBusRoute(route);
             await BusRouteRepository.CreateOneAsync(route);
         }
 
@@ -34,7 +36,16 @@ namespace BusStation.API.Services
 
         public async Task UpdateByIdAsync(BusRoute route)
         {
+            ValidateBusRoute(route);
             await BusRouteRepository.UpdateByIdAsync(route);
+        }
+        
+        private void ValidateBusRoute(BusRoute route)
+        {
+            if (route.Departure.Equals(route.Destination)) 
+            {
+                throw new BadRequestException("Departure and Destination can't be the same!");
+            }
         }
     }
 }

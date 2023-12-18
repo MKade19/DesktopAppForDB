@@ -15,54 +15,87 @@ namespace BusStation.API.Data
         public async Task CreateOneAsync(Repairment repairment)
         {
             string sqlExpression = "usp_create_repairment";
-            await _connection.OpenAsync();
 
-            SqlCommand command = new SqlCommand(sqlExpression, _connection);
-            command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.Add(new SqlParameter("beginDate", repairment.BeginDate));
-            command.Parameters.Add(new SqlParameter("endDate", repairment.EndDate));
-            command.Parameters.Add(new SqlParameter("workerId", repairment.WorkerId));
-            command.Parameters.Add(new SqlParameter("busId", repairment.BusId));
-            command.Parameters.Add(new SqlParameter("malfunction", repairment.Malfunction));
+            try
+            {
+                await _connection.OpenAsync();
+                SqlCommand command = new SqlCommand(sqlExpression, _connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add(new SqlParameter("beginDate", repairment.BeginDate));
+                command.Parameters.Add(new SqlParameter("endDate", repairment.EndDate));
+                command.Parameters.Add(new SqlParameter("workerId", repairment.WorkerId));
+                command.Parameters.Add(new SqlParameter("busId", repairment.BusId));
+                command.Parameters.Add(new SqlParameter("malfunction", repairment.Malfunction));
 
-            await command.ExecuteNonQueryAsync();
-            await _connection.CloseAsync();
+                await command.ExecuteNonQueryAsync();
+            }
+            catch(Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
         }
 
         public async Task DeleteByIdAsync(int id)
         {
             string sqlExpression = "usp_delete_repairment_by_id";
-            await _connection.OpenAsync();
 
-            SqlCommand command = new SqlCommand(sqlExpression, _connection);
-            command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.Add(new SqlParameter("id", id));
+            try
+            {
+                await _connection.OpenAsync();
 
-            await command.ExecuteNonQueryAsync();
-            await _connection.CloseAsync();
+                SqlCommand command = new SqlCommand(sqlExpression, _connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add(new SqlParameter("id", id));
+
+                await command.ExecuteNonQueryAsync();
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
         }
 
         public async Task<IEnumerable<Repairment>> GetAllAsync()
         {
             string sqlExpression = "usp_select_repairments";
-            await _connection.OpenAsync();
-
-            SqlCommand command = new SqlCommand(sqlExpression, _connection);
-            command.CommandType = CommandType.StoredProcedure;
             List<Repairment> repairments = new List<Repairment>();
 
-            using (SqlDataReader reader = await command.ExecuteReaderAsync())
+            try
             {
-                if (reader.HasRows)
+                await _connection.OpenAsync();
+
+                SqlCommand command = new SqlCommand(sqlExpression, _connection);
+                command.CommandType = CommandType.StoredProcedure;
+
+                using (SqlDataReader reader = await command.ExecuteReaderAsync())
                 {
-                    while (await reader.ReadAsync())
+                    if (reader.HasRows)
                     {
-                        repairments.Add(GetRepairmentFromReader(reader));
+                        while (await reader.ReadAsync())
+                        {
+                            repairments.Add(GetRepairmentFromReader(reader));
+                        }
                     }
                 }
-            }
 
-            await _connection.CloseAsync();
+            }
+            catch (Exception) 
+            {
+                throw;
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
 
             return repairments;
         }
@@ -70,23 +103,33 @@ namespace BusStation.API.Data
         public async Task<Repairment> GetByIdAsync(int id)
         {
             string sqlExpression = "usp_select_repairment_by_id";
-            await _connection.OpenAsync();
+            Repairment? repairment = null;
 
-            SqlCommand command = new SqlCommand(sqlExpression, _connection);
-            command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.Add(new SqlParameter("id", id));
-            Repairment repairment = null;
-
-            using (SqlDataReader reader = await command.ExecuteReaderAsync())
+            try
             {
-                if (reader.HasRows)
+                await _connection.OpenAsync();
+
+                SqlCommand command = new SqlCommand(sqlExpression, _connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add(new SqlParameter("id", id));
+
+                using (SqlDataReader reader = await command.ExecuteReaderAsync())
                 {
-                    await reader.ReadAsync();
-                    repairment = GetRepairmentFromReader(reader);
+                    if (reader.HasRows)
+                    {
+                        await reader.ReadAsync();
+                        repairment = GetRepairmentFromReader(reader);
+                    }
                 }
             }
-
-            await _connection.CloseAsync();
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
 
             return repairment ?? new Repairment();
         }
@@ -94,19 +137,30 @@ namespace BusStation.API.Data
         public async Task UpdateByIdAsync(Repairment repairment)
         {
             string sqlExpression = "usp_update_repairment_by_id";
-            await _connection.OpenAsync();
 
-            SqlCommand command = new SqlCommand(sqlExpression, _connection);
-            command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.Add(new SqlParameter("id", repairment.Id));
-            command.Parameters.Add(new SqlParameter("beginDate", repairment.BeginDate));
-            command.Parameters.Add(new SqlParameter("endDate", repairment.EndDate));
-            command.Parameters.Add(new SqlParameter("workerId", repairment.WorkerId));
-            command.Parameters.Add(new SqlParameter("busId", repairment.BusId));
-            command.Parameters.Add(new SqlParameter("malfunction", repairment.Malfunction));
+            try
+            {
+                await _connection.OpenAsync();
 
-            await command.ExecuteNonQueryAsync();
-            await _connection.CloseAsync();
+                SqlCommand command = new SqlCommand(sqlExpression, _connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add(new SqlParameter("id", repairment.Id));
+                command.Parameters.Add(new SqlParameter("beginDate", repairment.BeginDate));
+                command.Parameters.Add(new SqlParameter("endDate", repairment.EndDate));
+                command.Parameters.Add(new SqlParameter("workerId", repairment.WorkerId));
+                command.Parameters.Add(new SqlParameter("busId", repairment.BusId));
+                command.Parameters.Add(new SqlParameter("malfunction", repairment.Malfunction));
+
+                await command.ExecuteNonQueryAsync();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
         }
 
         private Repairment GetRepairmentFromReader(SqlDataReader reader)

@@ -15,53 +15,85 @@ namespace BusStation.API.Data
         public async Task CreateOneAsync(TechnicalInspection technicalInspection)
         {
             string sqlExpression = "usp_create_technical_inspection";
-            await _connection.OpenAsync();
 
-            SqlCommand command = new SqlCommand(sqlExpression, _connection);
-            command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.Add(new SqlParameter("busId", technicalInspection.BusId));
-            command.Parameters.Add(new SqlParameter("inspectionDate", technicalInspection.InspectionDate));
-            command.Parameters.Add(new SqlParameter("isAllowed", technicalInspection.IsAllowed));
-            command.Parameters.Add(new SqlParameter("denialReason", technicalInspection.DenialReason == null ? DBNull.Value : technicalInspection.DenialReason));
+            try
+            {
+                await _connection.OpenAsync();
 
-            await command.ExecuteNonQueryAsync();
-            await _connection.CloseAsync();
+                SqlCommand command = new SqlCommand(sqlExpression, _connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add(new SqlParameter("busId", technicalInspection.BusId));
+                command.Parameters.Add(new SqlParameter("inspectionDate", technicalInspection.InspectionDate));
+                command.Parameters.Add(new SqlParameter("isAllowed", technicalInspection.IsAllowed));
+                command.Parameters.Add(new SqlParameter("denialReason", technicalInspection.DenialReason == null ? DBNull.Value : technicalInspection.DenialReason));
+
+                await command.ExecuteNonQueryAsync();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
         }
 
         public async Task DeleteByIdAsync(int id)
         {
             string sqlExpression = "usp_delete_technical_inspection_by_id";
-            await _connection.OpenAsync();
 
-            SqlCommand command = new SqlCommand(sqlExpression, _connection);
-            command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.Add(new SqlParameter("id", id));
+            try
+            {
+                await _connection.OpenAsync();
 
-            await command.ExecuteNonQueryAsync();
-            await _connection.CloseAsync();
+                SqlCommand command = new SqlCommand(sqlExpression, _connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add(new SqlParameter("id", id));
+
+                await command.ExecuteNonQueryAsync();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
         }
 
         public async Task<IEnumerable<TechnicalInspection>> GetAllAsync()
         {
             string sqlExpression = "usp_select_technical_inspections";
-            await _connection.OpenAsync();
-
-            SqlCommand command = new SqlCommand(sqlExpression, _connection);
-            command.CommandType = CommandType.StoredProcedure;
             List<TechnicalInspection> technicalInspections = new List<TechnicalInspection>();
 
-            using (SqlDataReader reader = await command.ExecuteReaderAsync())
+            try
             {
-                if (reader.HasRows)
+                await _connection.OpenAsync();
+
+                SqlCommand command = new SqlCommand(sqlExpression, _connection);
+                command.CommandType = CommandType.StoredProcedure;
+
+                using (SqlDataReader reader = await command.ExecuteReaderAsync())
                 {
-                    while (await reader.ReadAsync())
+                    if (reader.HasRows)
                     {
-                        technicalInspections.Add(GetTechnicalInspectionFromReader(reader));
+                        while (await reader.ReadAsync())
+                        {
+                            technicalInspections.Add(GetTechnicalInspectionFromReader(reader));
+                        }
                     }
                 }
             }
-
-            await _connection.CloseAsync();
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
 
             return technicalInspections;
         }
@@ -69,23 +101,33 @@ namespace BusStation.API.Data
         public async Task<TechnicalInspection> GetByIdAsync(int id)
         {
             string sqlExpression = "usp_select_technical_inspection_by_id";
-            await _connection.OpenAsync();
+            TechnicalInspection? technicalInspection = null;
 
-            SqlCommand command = new SqlCommand(sqlExpression, _connection);
-            command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.Add(new SqlParameter("id", id));
-            TechnicalInspection technicalInspection = null;
-
-            using (SqlDataReader reader = await command.ExecuteReaderAsync())
+            try
             {
-                if (reader.HasRows)
+                await _connection.OpenAsync();
+
+                SqlCommand command = new SqlCommand(sqlExpression, _connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add(new SqlParameter("id", id));
+
+                using (SqlDataReader reader = await command.ExecuteReaderAsync())
                 {
-                    await reader.ReadAsync();
-                    technicalInspection = GetTechnicalInspectionFromReader(reader);
+                    if (reader.HasRows)
+                    {
+                        await reader.ReadAsync();
+                        technicalInspection = GetTechnicalInspectionFromReader(reader);
+                    }
                 }
             }
-
-            await _connection.CloseAsync();
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
 
             return technicalInspection ?? new TechnicalInspection();
         }
@@ -93,18 +135,29 @@ namespace BusStation.API.Data
         public async Task UpdateByIdAsync(TechnicalInspection technicalInspection)
         {
             string sqlExpression = "usp_update_technical_inspection_by_id";
-            await _connection.OpenAsync();
 
-            SqlCommand command = new SqlCommand(sqlExpression, _connection);
-            command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.Add(new SqlParameter("id", technicalInspection.Id));
-            command.Parameters.Add(new SqlParameter("busId", technicalInspection.BusId));
-            command.Parameters.Add(new SqlParameter("inspectionDate", technicalInspection.InspectionDate));
-            command.Parameters.Add(new SqlParameter("isAllowed", technicalInspection.IsAllowed));
-            command.Parameters.Add(new SqlParameter("denialReason", technicalInspection.DenialReason == null ? DBNull.Value : technicalInspection.DenialReason));
+            try
+            {
+                await _connection.OpenAsync();
 
-            await command.ExecuteNonQueryAsync();
-            await _connection.CloseAsync();
+                SqlCommand command = new SqlCommand(sqlExpression, _connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add(new SqlParameter("id", technicalInspection.Id));
+                command.Parameters.Add(new SqlParameter("busId", technicalInspection.BusId));
+                command.Parameters.Add(new SqlParameter("inspectionDate", technicalInspection.InspectionDate));
+                command.Parameters.Add(new SqlParameter("isAllowed", technicalInspection.IsAllowed));
+                command.Parameters.Add(new SqlParameter("denialReason", technicalInspection.DenialReason == null ? DBNull.Value : technicalInspection.DenialReason));
+
+                await command.ExecuteNonQueryAsync();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
         }
 
         private TechnicalInspection GetTechnicalInspectionFromReader(SqlDataReader reader)

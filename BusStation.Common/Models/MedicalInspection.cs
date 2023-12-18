@@ -1,22 +1,27 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace BusStation.Common.Models
 {
     public class MedicalInspection
     {
         [JsonPropertyName("id")]
+        [Required]
         public int Id { get; set; } = -1;
 
         [JsonPropertyName("inspectionDate")]
+        [Required]
         public DateTime InspectionDate { get; set; } = DateTime.Today;
 
         [JsonPropertyName("workerId")]
+        [Required]
         public int WorkerId { get; set; } = -1;
 
         [JsonPropertyName("workerName")]
         public string? WorkerName { get; set; }
 
         [JsonPropertyName("isAllowed")]
+        [Required]
         public bool IsAllowed { get; set; } = true;
 
         [JsonPropertyName("denialReason")]

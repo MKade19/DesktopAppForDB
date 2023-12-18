@@ -9,7 +9,8 @@ namespace BusStation.UI.Services
 {
     public class WorkerDataService : HttpDataServiceBase, IWorkerDataService
     {
-        public const string WORKER_URL = "workers";
+        private const string WORKER_URL = "workers";
+
         public async Task CreateOneAsync(Worker worker)
         {
             JsonContent content = JsonContent.Create(worker);

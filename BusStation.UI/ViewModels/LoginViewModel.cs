@@ -1,29 +1,37 @@
-﻿using System;
+﻿using BusStation.Common.Models;
+using BusStation.UI.Services;
+using BusStation.UI.Services.Abstract;
+using System.Threading.Tasks;
 
 namespace BusStation.UI.ViewModels
 {
     public class LoginViewModel : ViewModelBase
     {
-        private string _login = String.Empty;
-        private string _password = String.Empty;
+        private User _user = new User();
+        private IAuthDataService AuthDataService = new AuthDataService();
 
-        public string Login
+        public string Username
         {
-            get { return _login; }
+            get { return _user.Username; }
             set
             {
-                _login = value;
-                OnPropertyChanged(nameof(Login));
+                _user.Username = value;
+                OnPropertyChanged(nameof(Username));
             }
         }
         public string Password
         {
-            get { return _password; }
+            get { return _user.Password; }
             set
             {
-                _password = value;
+                _user.Password = value;
                 OnPropertyChanged(nameof(Password));
             }
+        }
+
+        public async Task LoginAsync()
+        {
+            await AuthDataService.LoginAsync(_user);
         }
     }
 }

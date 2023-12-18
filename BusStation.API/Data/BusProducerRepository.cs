@@ -96,7 +96,7 @@ namespace BusStation.API.Data
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
@@ -131,7 +131,7 @@ namespace BusStation.API.Data
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
@@ -147,29 +147,51 @@ namespace BusStation.API.Data
         public async Task UpdateByIdAsync(BusProducer producer)
         {
             string sqlExpression = "usp_update_bus_producer_by_id";
-            await _connection.OpenAsync();
 
-            SqlCommand command = new SqlCommand(sqlExpression, _connection);
-            command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.Add(new SqlParameter("id", producer.Id));
-            command.Parameters.Add(new SqlParameter("title", producer.Title));
-            command.Parameters.Add(new SqlParameter("town", producer.Town));
+            try
+            {
+                await _connection.OpenAsync();
 
-            await command.ExecuteNonQueryAsync();
-            await _connection.CloseAsync();
+                SqlCommand command = new SqlCommand(sqlExpression, _connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add(new SqlParameter("id", producer.Id));
+                command.Parameters.Add(new SqlParameter("title", producer.Title));
+                command.Parameters.Add(new SqlParameter("town", producer.Town));
+
+                await command.ExecuteNonQueryAsync();
+            }
+            catch (Exception)
+            { 
+                throw;
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
         }
 
         public async Task DeleteByIdAsync(int id)
         {
             string sqlExpression = "usp_delete_bus_producer_by_id";
-            await _connection.OpenAsync();
 
-            SqlCommand command = new SqlCommand(sqlExpression, _connection);
-            command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.Add(new SqlParameter("id", id));
+            try
+            {
+                await _connection.OpenAsync();
 
-            await command.ExecuteNonQueryAsync();
-            await _connection.CloseAsync();
+                SqlCommand command = new SqlCommand(sqlExpression, _connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add(new SqlParameter("id", id));
+
+                await command.ExecuteNonQueryAsync();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
         }
 
         private BusProducer GetProducerFromReader(SqlDataReader reader)

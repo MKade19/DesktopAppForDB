@@ -10,7 +10,7 @@ namespace BusStation.UI.Services
 {
     public class BusRouteDataService : HttpDataServiceBase, IBusRouteDataService
     {
-        public const string BUS_ROUTE_URL = "bus-routes";
+        private const string BUS_ROUTE_URL = "bus-routes";
 
         public async Task CreateOneAsync(BusRoute busRoute)
         {

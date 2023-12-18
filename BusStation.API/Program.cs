@@ -3,6 +3,10 @@ using BusStation.API.Data.Abstract;
 using BusStation.API.Middlewares;
 using BusStation.API.Services;
 using BusStation.API.Services.Abstract;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using BusStation.API;
+using Microsoft.IdentityModel.Tokens;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,6 +33,24 @@ builder.Services.AddTransient<IMedicalInspectionService, MedicalInspectionServic
 builder.Services.AddTransient<ITechnicalInspectionService, TechnicalInspectionService>();
 builder.Services.AddTransient<IRepairmentService, RepairmentService>();
 builder.Services.AddTransient<IVoyageService, VoyageService>();
+builder.Services.AddTransient<IUserRepository, UserRepository>();
+builder.Services.AddTransient<IAuthService, AuthService>();
+builder.Services.AddTransient<IHashService, HashService>();
+builder.Services.AddTransient<ITokenService, TokenService>();
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidIssuer = AuthOptions.ISSUER,
+            ValidateAudience = true,
+            ValidAudience = AuthOptions.AUDIENCE,
+            ValidateLifetime = true,
+            IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
+            ValidateIssuerSigningKey = true,
+        };
+    });
 
 builder.Services.AddControllers();
 
@@ -40,6 +62,7 @@ app.UseHttpsRedirection();
 
 app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

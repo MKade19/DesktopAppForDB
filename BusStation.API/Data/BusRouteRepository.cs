@@ -16,53 +16,85 @@ namespace BusStation.API.Data
         public async Task CreateOneAsync(BusRoute route)
         {
             string sqlExpression = "usp_create_route";
-            await _connection.OpenAsync();
 
-            SqlCommand command = new SqlCommand(sqlExpression, _connection);
-            command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.Add(new SqlParameter("routeNumber", route.RouteNumber));
-            command.Parameters.Add(new SqlParameter("departure", route.Departure));
-            command.Parameters.Add(new SqlParameter("destination", route.Destination));
-            command.Parameters.Add(new SqlParameter("distance", route.Distance));
+            try
+            {
+                await _connection.OpenAsync();
 
-            await command.ExecuteNonQueryAsync();
-            await _connection.CloseAsync();
+                SqlCommand command = new SqlCommand(sqlExpression, _connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add(new SqlParameter("routeNumber", route.RouteNumber));
+                command.Parameters.Add(new SqlParameter("departure", route.Departure));
+                command.Parameters.Add(new SqlParameter("destination", route.Destination));
+                command.Parameters.Add(new SqlParameter("distance", route.Distance));
+
+                await command.ExecuteNonQueryAsync();
+            }
+            catch (Exception) 
+            {
+                throw;
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
         }
 
         public async Task DeleteByIdAsync(int id)
         {
             string sqlExpression = "usp_delete_route_by_id";
-            await _connection.OpenAsync();
 
-            SqlCommand command = new SqlCommand(sqlExpression, _connection);
-            command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.Add(new SqlParameter("id", id));
+            try
+            {
+                await _connection.OpenAsync();
 
-            await command.ExecuteNonQueryAsync();
-            await _connection.CloseAsync();
+                SqlCommand command = new SqlCommand(sqlExpression, _connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add(new SqlParameter("id", id));
+
+                await command.ExecuteNonQueryAsync();
+            }
+            catch(Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
         }
 
         public async Task<IEnumerable<BusRoute>> GetAllAsync()
         {
             string sqlExpression = "usp_select_bus_routes";
-            await _connection.OpenAsync();
-
-            SqlCommand command = new SqlCommand(sqlExpression, _connection);
-            command.CommandType = CommandType.StoredProcedure;
             List<BusRoute> routes = new List<BusRoute>();
 
-            using (SqlDataReader reader = await command.ExecuteReaderAsync())
+            try
             {
-                if (reader.HasRows)
+                await _connection.OpenAsync();
+
+                SqlCommand command = new SqlCommand(sqlExpression, _connection);
+                command.CommandType = CommandType.StoredProcedure;
+
+                using (SqlDataReader reader = await command.ExecuteReaderAsync())
                 {
-                    while (await reader.ReadAsync())
+                    if (reader.HasRows)
                     {
-                        routes.Add(GetRouteFromReader(reader));
+                        while (await reader.ReadAsync())
+                        {
+                            routes.Add(GetRouteFromReader(reader));
+                        }
                     }
                 }
             }
-
-            await _connection.CloseAsync();
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
 
             return routes;
         }
@@ -70,23 +102,33 @@ namespace BusStation.API.Data
         public async Task<BusRoute> GetByIdAsync(int id)
         {
             string sqlExpression = "usp_select_bus_route_by_id";
-            await _connection.OpenAsync();
+            BusRoute? route = null;
 
-            SqlCommand command = new SqlCommand(sqlExpression, _connection);
-            command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.Add(new SqlParameter("id", id));
-            BusRoute route = null;
-
-            using (SqlDataReader reader = await command.ExecuteReaderAsync())
+            try
             {
-                if (reader.HasRows)
+                await _connection.OpenAsync();
+
+                SqlCommand command = new SqlCommand(sqlExpression, _connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add(new SqlParameter("id", id));
+
+                using (SqlDataReader reader = await command.ExecuteReaderAsync())
                 {
-                    await reader.ReadAsync();
-                    route = GetRouteFromReader(reader);
+                    if (reader.HasRows)
+                    {
+                        await reader.ReadAsync();
+                        route = GetRouteFromReader(reader);
+                    }
                 }
             }
-
-            await _connection.CloseAsync();
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
 
             return route ?? new BusRoute();
         }
@@ -94,18 +136,29 @@ namespace BusStation.API.Data
         public async Task UpdateByIdAsync(BusRoute route)
         {
             string sqlExpression = "usp_update_route_by_id";
-            await _connection.OpenAsync();
 
-            SqlCommand command = new SqlCommand(sqlExpression, _connection);
-            command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.Add(new SqlParameter("id", route.Id)); 
-            command.Parameters.Add(new SqlParameter("routeNumber", route.RouteNumber));
-            command.Parameters.Add(new SqlParameter("departure", route.Departure));
-            command.Parameters.Add(new SqlParameter("destination", route.Destination));
-            command.Parameters.Add(new SqlParameter("distance", route.Distance));
+            try
+            {
+                await _connection.OpenAsync();
 
-            await command.ExecuteNonQueryAsync();
-            await _connection.CloseAsync();
+                SqlCommand command = new SqlCommand(sqlExpression, _connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add(new SqlParameter("id", route.Id));
+                command.Parameters.Add(new SqlParameter("routeNumber", route.RouteNumber));
+                command.Parameters.Add(new SqlParameter("departure", route.Departure));
+                command.Parameters.Add(new SqlParameter("destination", route.Destination));
+                command.Parameters.Add(new SqlParameter("distance", route.Distance));
+
+                await command.ExecuteNonQueryAsync();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
         }
 
         private BusRoute GetRouteFromReader(SqlDataReader reader)

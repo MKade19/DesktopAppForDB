@@ -1,28 +1,36 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace BusStation.Common.Models
 {
     public class Voyage
     {
         [JsonPropertyName("id")]
+        [Required]
         public int Id { get; set; } = -1;
 
         [JsonPropertyName("voyage_date")]
+        [Required]
         public DateTime VoyageDate { get; set; } = DateTime.Today;
 
         [JsonPropertyName("departure_time")]
+        [Required]
         public DateTime DepartureTime { get; set; } = DateTime.Today;
 
         [JsonPropertyName("arrival_time")]
+        [Required]
         public DateTime ArrivalTime { get; set; } = DateTime.Today;
 
         [JsonPropertyName("route_id")]
+        [Required]
         public int BusRouteId { get; set; } = -1;
 
         [JsonPropertyName("route_number")]
+        [Required]
         public string? BusRouteNumber { get; set; }
 
         [JsonPropertyName("worker_id")]
+        [Required]
         public int WorkerId { get; set; } = -1;
 
         [JsonPropertyName("worker_name")]

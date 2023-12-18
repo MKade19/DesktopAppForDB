@@ -90,6 +90,40 @@ namespace BusStation.API.Data
             return worker ?? new Worker();
         }
 
+        public async Task<Worker> GetByNameAsync(string name)
+        {
+            string sqlExpression = "usp_select_worker_by_name";
+            Worker? worker = null;
+
+            try
+            {
+                await _connection.OpenAsync();
+
+                SqlCommand command = new SqlCommand(sqlExpression, _connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add(new SqlParameter("name", name));
+
+                using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                {
+                    if (reader.HasRows)
+                    {
+                        await reader.ReadAsync();
+                        worker = GetWorkerFromReader(reader);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
+
+            return worker ?? new Worker();
+        }
+
         public async Task<IEnumerable<Worker>> GetByPosition(string positionTitle)
         {
             string sqlExpression = "usp_select_workers_by_position";

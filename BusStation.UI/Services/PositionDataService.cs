@@ -9,7 +9,8 @@ namespace BusStation.UI.Services
 {
     public class PositionDataService : HttpDataServiceBase, IPositionDataService
     {
-        public const string POSITION_URL = "positions";
+        private const string POSITION_URL = "positions";
+
         public async Task CreateOneAsync(Position position)
         {
             JsonContent content = JsonContent.Create(position);

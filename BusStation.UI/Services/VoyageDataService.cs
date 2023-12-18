@@ -9,7 +9,7 @@ namespace BusStation.UI.Services
 {
     public class VoyageDataService : HttpDataServiceBase, IVoyageDataService
     {
-        public const string VOYAGE_URL = "voyages";
+        private const string VOYAGE_URL = "voyages";
 
         public async Task CreateOneAsync(Voyage voyage)
         {

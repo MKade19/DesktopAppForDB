@@ -32,7 +32,7 @@ namespace BusStation.API.Data
             }
             catch (Exception)
             {
-                throw new Exception("nsrgj");
+                throw;
             }
             finally
             {
@@ -43,37 +43,58 @@ namespace BusStation.API.Data
         public async Task DeleteByIdAsync(int id)
         {
             string sqlExpression = "usp_delete_bus_by_id";
-            await _connection.OpenAsync();
 
-            SqlCommand command = new SqlCommand(sqlExpression, _connection);
-            command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.Add(new SqlParameter("id", id));
+            try
+            {
+                await _connection.OpenAsync();
 
-            await command.ExecuteNonQueryAsync();
-            await _connection.CloseAsync();
+                SqlCommand command = new SqlCommand(sqlExpression, _connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add(new SqlParameter("id", id));
+
+                await command.ExecuteNonQueryAsync();
+            }
+            catch (Exception) 
+            {
+                throw;
+            }
+            finally 
+            {
+                await _connection.CloseAsync();
+            }
         }
 
         public async Task<IEnumerable<Bus>> GetAllAsync()
         {
             string sqlExpression = "usp_select_buses";
-            await _connection.OpenAsync();
-
-            SqlCommand command = new SqlCommand(sqlExpression, _connection);
-            command.CommandType = CommandType.StoredProcedure;
             List<Bus> buses = new List<Bus>();
 
-            using (SqlDataReader reader = await command.ExecuteReaderAsync())
+            try
             {
-                if (reader.HasRows)
+                await _connection.OpenAsync();
+
+                SqlCommand command = new SqlCommand(sqlExpression, _connection);
+                command.CommandType = CommandType.StoredProcedure;
+
+                using (SqlDataReader reader = await command.ExecuteReaderAsync())
                 {
-                    while (await reader.ReadAsync())
+                    if (reader.HasRows)
                     {
-                        buses.Add(GetBusFromReader(reader));
+                        while (await reader.ReadAsync())
+                        {
+                            buses.Add(GetBusFromReader(reader));
+                        }
                     }
                 }
             }
-
-            await _connection.CloseAsync();
+            catch (Exception) 
+            {
+                throw; 
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
 
             return buses;
         }
@@ -81,23 +102,69 @@ namespace BusStation.API.Data
         public async Task<Bus> GetByIdAsync(int id)
         {
             string sqlExpression = "usp_select_bus_by_id";
-            await _connection.OpenAsync();
+            Bus? bus = null;
 
-            SqlCommand command = new SqlCommand(sqlExpression, _connection);
-            command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.Add(new SqlParameter("id", id));
-            Bus bus = null;
-
-            using (SqlDataReader reader = await command.ExecuteReaderAsync())
+            try
             {
-                if (reader.HasRows)
+                await _connection.OpenAsync();
+
+                SqlCommand command = new SqlCommand(sqlExpression, _connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add(new SqlParameter("id", id));
+
+
+                using (SqlDataReader reader = await command.ExecuteReaderAsync())
                 {
-                    await reader.ReadAsync();
-                    bus = GetBusFromReader(reader);
+                    if (reader.HasRows)
+                    {
+                        await reader.ReadAsync();
+                        bus = GetBusFromReader(reader);
+                    }
                 }
             }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally 
+            { 
+                await _connection.CloseAsync(); 
+            }
 
-            await _connection.CloseAsync();
+            return bus ?? new Bus();
+        }
+
+        public async Task<Bus> GetByNumberAsync(string busNumber)
+        {
+            string sqlExpression = "usp_select_bus_by_number";
+            Bus? bus = null;
+
+            try
+            {
+                await _connection.OpenAsync();
+
+                SqlCommand command = new SqlCommand(sqlExpression, _connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add(new SqlParameter("@stateNumber", busNumber));
+                
+
+                using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                {
+                    if (reader.HasRows)
+                    {
+                        await reader.ReadAsync();
+                        bus = GetBusFromReader(reader);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally 
+            {
+                await _connection.CloseAsync();
+            }
 
             return bus ?? new Bus();
         }
@@ -105,19 +172,30 @@ namespace BusStation.API.Data
         public async Task UpdateByIdAsync(Bus bus)
         {
             string sqlExpression = "usp_update_bus_by_id";
-            await _connection.OpenAsync();
 
-            SqlCommand command = new SqlCommand(sqlExpression, _connection);
-            command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.Add(new SqlParameter("id", bus.Id));
-            command.Parameters.Add(new SqlParameter("stateNumber", bus.StateNumber));
-            command.Parameters.Add(new SqlParameter("deliveryDate", bus.DeliveryDate));
-            command.Parameters.Add(new SqlParameter("color", bus.Color));
-            command.Parameters.Add(new SqlParameter("garageNumber", bus.GarageNumber));
-            command.Parameters.Add(new SqlParameter("modelId", bus.BusModelId));
+            try
+            {
+                await _connection.OpenAsync();
 
-            await command.ExecuteNonQueryAsync();
-            await _connection.CloseAsync();
+                SqlCommand command = new SqlCommand(sqlExpression, _connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add(new SqlParameter("id", bus.Id));
+                command.Parameters.Add(new SqlParameter("stateNumber", bus.StateNumber));
+                command.Parameters.Add(new SqlParameter("deliveryDate", bus.DeliveryDate));
+                command.Parameters.Add(new SqlParameter("color", bus.Color));
+                command.Parameters.Add(new SqlParameter("garageNumber", bus.GarageNumber));
+                command.Parameters.Add(new SqlParameter("modelId", bus.BusModelId));
+
+                await command.ExecuteNonQueryAsync();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
         }
 
         private Bus GetBusFromReader(SqlDataReader reader)
@@ -129,6 +207,7 @@ namespace BusStation.API.Data
             int garageNumber = reader.GetInt32("garage_number");
             int modelId = reader.GetInt32("model_id");
             string modelTitle = reader.GetString("model_title");
+
             return new Bus(id, stateNumber, deliveryDate, color, garageNumber, modelId, modelTitle);
         }
     }

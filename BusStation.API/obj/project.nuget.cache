@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "0X/fXeatBYCo0ULTiL4S+9OfdPUhT3GDxK4Lx0LdAjjHYUnyaMIWRYkCamUwp/N3ohUnzf3bnisv8uSNS5C4HQ==",
+  "dgSpecHash": "iByQbpdKnxNVQheL6lvWfKhy3q6+tX2Y+l5WQGTmJsj8lWoCQ/fZOQXu0fFyJbe216MWgmrQJyUJMPFHgv67GQ==",
   "success": true,
   "projectFilePath": "D:\\My_documents\\practice\\c#\\BusStation\\BusStation\\BusStation.API\\BusStation.API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Максим\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\Максим\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",
+    "C:\\Users\\Максим\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\6.0.1\\microsoft.aspnetcore.authentication.jwtbearer.6.0.1.nupkg.sha512",
     "C:\\Users\\Максим\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\1.1.1\\microsoft.bcl.asyncinterfaces.1.1.1.nupkg.sha512",
     "C:\\Users\\Максим\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
     "C:\\Users\\Максим\\.nuget\\packages\\microsoft.data.sqlclient\\5.1.2\\microsoft.data.sqlclient.5.1.2.nupkg.sha512",

@@ -9,7 +9,8 @@ namespace BusStation.UI.Services
 {
     public class TechnicalInspectionDataService : HttpDataServiceBase, ITechnicalInspectionDataService
     {
-        public const string TECHNICAL_INSPECTION_URL = "technical-inspections";
+        private const string TECHNICAL_INSPECTION_URL = "technical-inspections";
+
         public async Task CreateOneAsync(TechnicalInspection technicalInspection)
         {
             JsonContent content = JsonContent.Create(technicalInspection);

@@ -3,26 +3,27 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BusStation.UI.Views"
         xmlns:viewModels="clr-namespace:BusStation.UI.ViewModels"
-        xmlns:views="clr-namespace:BusStation.UI.Views"
         mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance viewModels:MainViewModel, IsDesignTimeCreatable=True}"
         Title="Главное окно" Height="530" Width="1100">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="67*"/>
             <ColumnDefinition Width="1033*"/>
         </Grid.ColumnDefinitions>
-        <Menu Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.ColumnSpan="2" Width="1100" FontSize="14">
+        <Menu x:Name="MainMenu" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.ColumnSpan="2" Width="1100" FontSize="14">
             <MenuItem Header="Отчеты"/>
-            <MenuItem Header="Выйти"/>
+            <MenuItem x:Name="LogoutButton" IsEnabled="False" Header="Выйти" Click="LogoutButton_Click"/>
         </Menu>
         <TabControl x:Name="MainWindowContainer"
                     SelectedIndex="0" Grid.ColumnSpan="2" Margin="0,30,0,0"
                     >
-            <TabItem Visibility="Collapsed">
-                <views:LoginView/>
+            <TabItem Visibility="Visible">
+                <local:LoginView/>
             </TabItem>
-            <TabItem Visibility="Collapsed">
+            <TabItem Visibility="Visible">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="15.061"/>

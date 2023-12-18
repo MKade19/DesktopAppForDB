@@ -9,7 +9,7 @@ namespace BusStation.UI.Services
 {
     public class MedicalInspectionDataService : HttpDataServiceBase, IMedicalInspectionDataService
     {
-        public const string MEDICAL_INSPECTION_URL = "medical-inspections";
+        private const string MEDICAL_INSPECTION_URL = "medical-inspections";
 
         public async Task CreateOneAsync(MedicalInspection medicalInspection)
         {

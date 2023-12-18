@@ -23,7 +23,7 @@ namespace BusStation.UI
 
         public App()
         {
-            Application.Current.DispatcherUnhandledException +=Current_DispatcherUnhandledException;
+            Application.Current.DispatcherUnhandledException += Current_DispatcherUnhandledException;
 
 
             ServiceCollection services = new ServiceCollection();
@@ -33,6 +33,7 @@ namespace BusStation.UI
         private void Current_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
             // show error here
+            var str = "";
         }
 
         private void ConfigureServices(ServiceCollection services)

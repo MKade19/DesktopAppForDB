@@ -9,7 +9,7 @@ namespace BusStation.UI.Services
 {
     public class BusProducerDataService : HttpDataServiceBase, IBusProducerDataService
     {
-        public const string BUS_PRODUCER_URL = "bus-producers";
+        private const string BUS_PRODUCER_URL = "bus-producers";
 
         public async Task CreateOneAsync(BusProducer busProducer)
         {

@@ -1,5 +1,6 @@
 ﻿using BusStation.API.Services.Abstract;
 using BusStation.Common.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BusStation.API.Controllers
@@ -17,18 +18,21 @@ namespace BusStation.API.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IEnumerable<BusModel>> GetAllAsync()
         {
             return await BusModelService.GetAllAsync();
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<BusModel> GetByIdAsync(int id)
         {
             return await BusModelService.GetByIdAsync(id);
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult> CreateOneAsync([FromBody] BusModel model)
         {
             TryValidateModel(model);
@@ -37,6 +41,7 @@ namespace BusStation.API.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult> UpdateByIdAsync([FromBody] BusModel model)
         {
             TryValidateModel(model);
@@ -45,6 +50,7 @@ namespace BusStation.API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult> DeleteByIdAsync(int id)
         {
             await BusModelService.DeleteByIdAsync(id);

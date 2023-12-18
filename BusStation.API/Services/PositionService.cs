@@ -1,4 +1,6 @@
-﻿using BusStation.API.Data.Abstract;
+﻿using BusStation.API.Data;
+using BusStation.API.Data.Abstract;
+using BusStation.API.Exceptions;
 using BusStation.API.Services.Abstract;
 using BusStation.Common.Models;
 
@@ -15,6 +17,7 @@ namespace BusStation.API.Services
 
         public async Task CreateOneAsync(Position position)
         {
+            await ValidatePositionAsync(position);
             await PositionRepository.CreateOneAsync(position);
         }
 
@@ -35,7 +38,18 @@ namespace BusStation.API.Services
 
         public async Task UpdateByIdAsync(Position position)
         {
+            await ValidatePositionAsync(position);
             await PositionRepository.UpdateByIdAsync(position);
+        }
+
+        private async Task ValidatePositionAsync(Position position)
+        {
+            Position potentialPosition = await PositionRepository.GetByTitleAsync(position.Title);
+
+            if (potentialPosition.Id != -1)
+            {
+                throw new BadRequestException("There is such a position with this title!");
+            }
         }
     }
 }
