@@ -27,6 +27,12 @@ namespace BusStation.UI.Services
             return JsonSerializer.Deserialize<List<TechnicalInspection>>(await GetAsync(TECHNICAL_INSPECTION_URL)) ?? new List<TechnicalInspection>();
         }
 
+        public async Task<IEnumerable<TechnicalInspection>> GetByYearAndAllowanceAsync(int year, bool isAllowed)
+        {
+            string urlExtention = $"/year-allowance?year={year}&isAllowed={isAllowed}";
+            return JsonSerializer.Deserialize<List<TechnicalInspection>>(await GetAsync(TECHNICAL_INSPECTION_URL + urlExtention)) ?? new List<TechnicalInspection>();
+        }
+
         public async Task<TechnicalInspection> GetByIdAsync(int id)
         {
             return JsonSerializer.Deserialize<TechnicalInspection>(await GetAsync(TECHNICAL_INSPECTION_URL + "/" + id)) ?? new TechnicalInspection();

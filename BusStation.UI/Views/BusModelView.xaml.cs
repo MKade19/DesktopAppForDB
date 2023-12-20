@@ -1,8 +1,9 @@
-﻿using System.Threading.Tasks;
-using System.Windows.Controls;
-using BusStation.UI.ViewModels;
-using System.Windows;
+﻿using BusStation.UI.Services.Abstract;
 using BusStation.UI.Util;
+using BusStation.UI.ViewModels;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace BusStation.UI.Views
 {
@@ -11,11 +12,11 @@ namespace BusStation.UI.Views
     /// </summary>
     public partial class BusModelView : UserControl
     {
-        public BusModelView()
+        public BusModelView(IBusModelDataService busModelDataService, IBusProducerDataService busProducerDataService)
         {
             InitializeComponent();
             Loaded += BusModelView_Loaded;
-            DataContext = new BusModelViewModel();
+            DataContext = new BusModelViewModel(busModelDataService, busProducerDataService);
         }
 
         private async void BusModelView_Loaded(object sender, System.Windows.RoutedEventArgs e)

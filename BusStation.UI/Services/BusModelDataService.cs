@@ -33,6 +33,11 @@ namespace BusStation.UI.Services
             return JsonSerializer.Deserialize<BusModel>(await GetAsync(BUS_MODEL_URL + "/" + id)) ?? new BusModel();
         }
 
+        public async Task<IEnumerable<BusModelWithDistance>> GetWithTotalDistanceAsync()
+        {
+            return JsonSerializer.Deserialize<List<BusModelWithDistance>>(await GetAsync(BUS_MODEL_URL + "/with-total-distance")) ?? new List<BusModelWithDistance>();
+        }
+
         public async Task UpdateByIdAsync(BusModel busModel)
         {
             JsonContent content = JsonContent.Create(busModel);

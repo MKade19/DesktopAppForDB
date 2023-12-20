@@ -132,6 +132,43 @@ namespace BusStation.API.Data
             return technicalInspection ?? new TechnicalInspection();
         }
 
+        public async Task<IEnumerable<TechnicalInspection>> GetByYearAndAllowanceAsync(int year, bool isAllowed)
+        {
+            string sqlExpression = "usp_select_technical_inspections_by_year_and_allowance";
+            List<TechnicalInspection> technicalInspections = new List<TechnicalInspection>();
+
+            try
+            {
+                await _connection.OpenAsync();
+
+                SqlCommand command = new SqlCommand(sqlExpression, _connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add(new SqlParameter("year", year));
+                command.Parameters.Add(new SqlParameter("isAllowed", isAllowed));
+
+                using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                {
+                    if (reader.HasRows)
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            technicalInspections.Add(GetTechnicalInspectionFromReader(reader));
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
+
+            return technicalInspections;
+        }
+
         public async Task UpdateByIdAsync(TechnicalInspection technicalInspection)
         {
             string sqlExpression = "usp_update_technical_inspection_by_id";

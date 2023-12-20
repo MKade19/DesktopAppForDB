@@ -31,6 +31,13 @@ namespace BusStation.API.Controllers
             return await BusModelService.GetByIdAsync(id);
         }
 
+        [HttpGet("with-total-distance")]
+        [Authorize]
+        public async Task<IEnumerable<BusModelWithDistance>> GetWithTotalDistanceAsync()
+        {
+            return await BusModelService.GetWithTotalDistanceAsync();
+        }
+
         [HttpPost]
         [Authorize(Roles = "admin")]
         public async Task<ActionResult> CreateOneAsync([FromBody] BusModel model)

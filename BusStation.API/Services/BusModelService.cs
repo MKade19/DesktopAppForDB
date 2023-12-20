@@ -58,5 +58,10 @@ namespace BusStation.API.Services
                 throw new BadRequestException("There is no such a producer!");
             }
         }
+
+        public async Task<IEnumerable<BusModelWithDistance>> GetWithTotalDistanceAsync()
+        {
+            return await BusModelRepository.GetWithTotalDistanceAsync();
+        }
     }
 }

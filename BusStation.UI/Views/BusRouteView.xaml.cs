@@ -1,4 +1,5 @@
 ﻿using BusStation.UI.Services;
+using BusStation.UI.Services.Abstract;
 using BusStation.UI.Util;
 using BusStation.UI.ViewModels;
 using System;
@@ -13,11 +14,11 @@ namespace BusStation.UI.Views
     /// </summary>
     public partial class BusRouteView : UserControl
     {
-        public BusRouteView()
+        public BusRouteView(IBusRouteDataService busRouteDataService)
         {
             InitializeComponent();
             Loaded += BusRouteView_Loaded;
-            DataContext = new BusRouteViewModel();
+            DataContext = new BusRouteViewModel(busRouteDataService);
         }
 
         private async void BusRouteView_Loaded(object sender, RoutedEventArgs e)

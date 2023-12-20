@@ -1,5 +1,4 @@
 ﻿using BusStation.Common.Models;
-using BusStation.UI.Services;
 using BusStation.UI.Services.Abstract;
 using System;
 using System.Collections.ObjectModel;
@@ -11,11 +10,17 @@ namespace BusStation.UI.ViewModels
     public class MedicalInspectionViewModel : ViewModelBase
     {
         private MedicalInspection _medicalInspection = new MedicalInspection();
-        private IMedicalInspectionDataService MedicalInspectionDataService { get; } = new MedicalInspectionDataService();
-        private IWorkerDataService WorkerDataService { get; } = new WorkerDataService();
+        private IMedicalInspectionDataService MedicalInspectionDataService { get; }
+        private IWorkerDataService WorkerDataService { get; }
         private ObservableCollection<MedicalInspection> _medicalInspections;
         private ObservableCollection<Worker> _workers;
         private Worker _currentWorker;
+
+        public MedicalInspectionViewModel(IMedicalInspectionDataService medicalInspectionDataService, IWorkerDataService workerDataService)
+        {
+            MedicalInspectionDataService = medicalInspectionDataService;
+            WorkerDataService = workerDataService;
+        }
 
         public Worker CurrentWorker
         {

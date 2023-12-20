@@ -1,5 +1,4 @@
 ﻿using BusStation.Common.Models;
-using BusStation.UI.Services;
 using BusStation.UI.Services.Abstract;
 using System.Threading.Tasks;
 
@@ -8,7 +7,12 @@ namespace BusStation.UI.ViewModels
     public class LoginViewModel : ViewModelBase
     {
         private User _user = new User();
-        private IAuthDataService AuthDataService = new AuthDataService();
+        private IAuthDataService AuthDataService;
+
+        public LoginViewModel(IAuthDataService authDataService) 
+        { 
+            AuthDataService = authDataService;
+        }
 
         public string Username
         {

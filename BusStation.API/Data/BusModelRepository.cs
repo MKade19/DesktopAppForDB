@@ -166,6 +166,41 @@ namespace BusStation.API.Data
             return busModel ?? new BusModel();
         }
 
+        public async Task<IEnumerable<BusModelWithDistance>> GetWithTotalDistanceAsync()
+        {
+            string sqlExpression = "usp_select_bus_models_with_distance";
+            List<BusModelWithDistance> busModels = new List<BusModelWithDistance>();
+
+            try
+            {
+                await _connection.OpenAsync();
+
+                SqlCommand command = new SqlCommand(sqlExpression, _connection);
+                command.CommandType = CommandType.StoredProcedure;
+
+                using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                {
+                    if (reader.HasRows)
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            busModels.Add(GetModelWithDistanceFromReader(reader));
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
+
+            return busModels;
+        }
+
         public async Task UpdateByIdAsync(BusModel model)
         {
             string sqlExpression = "usp_update_bus_model_by_id";
@@ -199,6 +234,16 @@ namespace BusStation.API.Data
             int producerId = reader.GetInt32("producer_id");
             string produserName = reader.GetString("producer_name");
             return new BusModel(id, title, producerId, produserName);
+        }
+
+        private BusModelWithDistance GetModelWithDistanceFromReader(SqlDataReader reader)
+        {
+            int id = reader.GetInt32("id");
+            string title = reader.GetString("title");
+            int producerId = reader.GetInt32("producer_id");
+            int totalDistance = reader.GetInt32("total_distance");
+            string produserName = reader.GetString("producer_name");
+            return new BusModelWithDistance(id, title, producerId, produserName, totalDistance);
         }
     }
 }

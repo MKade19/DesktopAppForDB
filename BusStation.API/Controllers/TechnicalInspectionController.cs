@@ -30,6 +30,13 @@ namespace BusStation.API.Controllers
             return await TechnicalInspectionService.GetByIdAsync(id);
         }
 
+        [HttpGet("year-allowance")]
+        [Authorize]
+        public async Task<IEnumerable<TechnicalInspection>> GetByYearAndAllowanceAsync([FromQuery] int year, bool isAllowed)
+        {
+            return await TechnicalInspectionService.GetByYearAndAllowanceAsync(year, isAllowed);
+        }
+
         [HttpPost]
         [Authorize(Roles = "admin")]
         public async Task<ActionResult> CreateOneAsync([FromBody] TechnicalInspection technicalInspection)

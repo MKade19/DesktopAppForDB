@@ -1,4 +1,5 @@
-﻿using BusStation.UI.Util;
+﻿using BusStation.UI.Services.Abstract;
+using BusStation.UI.Util;
 using BusStation.UI.ViewModels;
 using System;
 using System.Threading.Tasks;
@@ -12,11 +13,11 @@ namespace BusStation.UI.Views
     /// </summary>
     public partial class VoyageView : UserControl
     {
-        public VoyageView()
+        public VoyageView(IVoyageDataService voyageDataService, IBusRouteDataService busRouteDataService, IWorkerDataService workerDataService, IBusDataService busDataService)
         {
             InitializeComponent();
             Loaded += VoyageView_Loaded;
-            DataContext = new VoyageViewModel();
+            DataContext = new VoyageViewModel(voyageDataService, busRouteDataService, workerDataService, busDataService);
         }
 
         private async void VoyageView_Loaded(object sender, RoutedEventArgs e)

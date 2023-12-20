@@ -9,9 +9,14 @@ namespace BusStation.UI.ViewModels
     public class PositionViewModel : ViewModelBase
     {
         private Position _position = new Position();
-        private IPositionDataService PositionDataService { get; } = new PositionDataService();
+        private IPositionDataService PositionDataService { get; }
 
         private ObservableCollection<Position> _positions;
+
+        public PositionViewModel(IPositionDataService positionDataService)
+        {
+            PositionDataService = positionDataService;
+        }
 
         public ObservableCollection<Position> Positions
         {

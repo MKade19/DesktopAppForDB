@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using BusStation.UI.Services.Abstract;
 using BusStation.UI.ViewModels;
 
 namespace BusStation.UI.Views
@@ -8,10 +9,10 @@ namespace BusStation.UI.Views
     /// </summary>
     public partial class LoginView : UserControl
     {
-        public LoginView()
+        public LoginView(IAuthDataService authDataService)
         {
             InitializeComponent();
-            DataContext = new LoginViewModel();
+            DataContext = new LoginViewModel(authDataService);
         }
 
         private async void SignInButton_Click(object sender, System.Windows.RoutedEventArgs e)

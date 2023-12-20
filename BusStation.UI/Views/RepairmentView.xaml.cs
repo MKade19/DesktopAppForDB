@@ -1,4 +1,5 @@
-﻿using BusStation.UI.Util;
+﻿using BusStation.UI.Services.Abstract;
+using BusStation.UI.Util;
 using BusStation.UI.ViewModels;
 using System;
 using System.Threading.Tasks;
@@ -12,11 +13,11 @@ namespace BusStation.UI.Views
     /// </summary>
     public partial class RepairmentView : UserControl
     {
-        public RepairmentView()
+        public RepairmentView(IRepairmentDataService repairmentDataService, IBusDataService busDataService, IWorkerDataService workerDataService)
         {
             InitializeComponent();
             Loaded += RepairmentView_Loaded;
-            DataContext = new RepairmentViewModel();
+            DataContext = new RepairmentViewModel(repairmentDataService, busDataService, workerDataService);
         }
 
         private async void RepairmentView_Loaded(object sender, RoutedEventArgs e)

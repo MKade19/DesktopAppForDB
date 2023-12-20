@@ -1,5 +1,4 @@
 ﻿using BusStation.Common.Models;
-using BusStation.UI.Services;
 using BusStation.UI.Services.Abstract;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
@@ -9,7 +8,12 @@ namespace BusStation.UI.ViewModels
     public class BusProducerViewModel : ViewModelBase
     {
         private BusProducer _busProducer = new BusProducer();
-        private IBusProducerDataService BusProducerDataService { get; } = new BusProducerDataService();
+        private IBusProducerDataService BusProducerDataService { get; }
+        
+        public BusProducerViewModel(IBusProducerDataService busProducerDataService) 
+        { 
+            BusProducerDataService = busProducerDataService;
+        }
 
         private ObservableCollection<BusProducer> _producers;
 

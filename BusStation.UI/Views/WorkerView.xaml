@@ -55,7 +55,7 @@
                 <Label Target="{Binding ElementName=BirthDatePicker}" Content="Дата рождения" FontSize="18" Height="45" Width="142" />
                 <DatePicker x:Name="BirthDatePicker" 
                     FontSize="18" 
-                    Width="183" 
+                    Width="176" 
                     Height="32"
                     DisplayDateEnd="{x:Static sys:DateTime.Now}"
                     SelectedDate="{Binding BirthDate, Mode=TwoWay, TargetNullValue={x:Static sys:DateTime.Now}}"

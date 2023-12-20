@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows;
 using BusStation.UI.ViewModels;
 using BusStation.UI.Util;
+using BusStation.UI.Services.Abstract;
 
 namespace BusStation.UI.Views
 {
@@ -12,11 +13,11 @@ namespace BusStation.UI.Views
     /// </summary>
     public partial class BusView : UserControl
     {
-        public BusView()
+        public BusView(IBusDataService busDataService, IBusModelDataService busModelDataService)
         {
             InitializeComponent();
             Loaded += BusView_Loaded;
-            DataContext = new BusViewModel();
+            DataContext = new BusViewModel(busDataService, busModelDataService);
         }
 
         private async void BusView_Loaded(object sender, System.Windows.RoutedEventArgs e)

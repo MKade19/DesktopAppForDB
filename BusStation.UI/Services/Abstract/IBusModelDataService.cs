@@ -1,8 +1,11 @@
 ﻿using BusStation.Common.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace BusStation.UI.Services.Abstract
-{ 
-    internal interface IBusModelDataService : IDataService<BusModel>
+{
+    public interface IBusModelDataService : IDataService<BusModel>
     {
+        Task<IEnumerable<BusModelWithDistance>> GetWithTotalDistanceAsync();
     }
 }

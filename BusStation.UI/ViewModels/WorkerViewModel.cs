@@ -1,5 +1,4 @@
 ﻿using BusStation.Common.Models;
-using BusStation.UI.Services;
 using BusStation.UI.Services.Abstract;
 using System;
 using System.Collections.ObjectModel;
@@ -12,12 +11,18 @@ namespace BusStation.UI.ViewModels
     {
         private Worker _worker = new Worker();
 
-        private IWorkerDataService WorkerDataService { get; } = new WorkerDataService();
-        private IPositionDataService PositionDataService { get; } = new PositionDataService();
+        private IWorkerDataService WorkerDataService { get; }
+        private IPositionDataService PositionDataService { get; }
 
         private ObservableCollection<Worker> _workers;
         private ObservableCollection<Position> _positions;
         private Position _currentPosition;
+
+        public WorkerViewModel(IWorkerDataService workerDataService, IPositionDataService positionDataService)
+        {
+            WorkerDataService = workerDataService;
+            PositionDataService = positionDataService;
+        }
 
         public Position CurrentPosition
         {

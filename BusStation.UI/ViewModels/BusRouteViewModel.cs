@@ -1,12 +1,7 @@
-﻿using BusStation.UI.Services;
-using BusStation.Common.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BusStation.Common.Models;
 using BusStation.UI.Services.Abstract;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 namespace BusStation.UI.ViewModels
 {
@@ -14,9 +9,14 @@ namespace BusStation.UI.ViewModels
     {
         private BusRoute _busRoute = new BusRoute();
 
-        private IBusRouteDataService BusRouteDataService = new BusRouteDataService();
+        private IBusRouteDataService BusRouteDataService { get; }
 
         private ObservableCollection<BusRoute> _routes;
+
+        public BusRouteViewModel(IBusRouteDataService busRouteDataService)
+        {
+            BusRouteDataService = busRouteDataService;
+        }
 
         public ObservableCollection<BusRoute> Routes
         {

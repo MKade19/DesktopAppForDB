@@ -2,7 +2,7 @@
 
 namespace BusStation.UI.Services.Abstract
 {
-    internal interface IBusRouteDataService : IDataService<BusRoute>
+    public interface IBusRouteDataService : IDataService<BusRoute>
     {
     }
 }

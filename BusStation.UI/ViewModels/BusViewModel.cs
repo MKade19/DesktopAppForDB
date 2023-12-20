@@ -1,5 +1,4 @@
 ﻿using BusStation.Common.Models;
-using BusStation.UI.Services;
 using BusStation.UI.Services.Abstract;
 using System;
 using System.Collections.ObjectModel;
@@ -11,11 +10,17 @@ namespace BusStation.UI.ViewModels
     public class BusViewModel : ViewModelBase
     {
         private Bus _bus = new Bus();
-        private IBusModelDataService BusModelDataService { get; } = new BusModelDataService();
-        private IBusDataService BusDataService { get; } = new BusDataService();
+        private IBusModelDataService BusModelDataService { get; }
+        private IBusDataService BusDataService { get; }
         private ObservableCollection<Bus> _buses;
         private ObservableCollection<BusModel> _models;
         private BusModel _currentBusModel;
+
+        public BusViewModel(IBusDataService busDataService, IBusModelDataService busModelDataService)
+        {
+            BusModelDataService = busModelDataService;
+            BusDataService = busDataService;
+        }
 
         public BusModel CurrentBusModel
         {

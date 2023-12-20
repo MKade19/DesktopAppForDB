@@ -52,5 +52,10 @@ namespace BusStation.API.Services
                 throw new BadRequestException("There is no such a bus!");
             }
         }
+
+        public async Task<IEnumerable<TechnicalInspection>> GetByYearAndAllowanceAsync(int year, bool isAllowed)
+        {
+            return await TechnicalInspectionRepository.GetByYearAndAllowanceAsync(year, isAllowed);
+        }
     }
 }

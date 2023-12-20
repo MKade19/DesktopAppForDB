@@ -14,6 +14,7 @@ namespace BusStation.UI.Services.Abstract
         {
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Properties.Settings.Default.AccessToken);
             HttpResponseMessage response = await _client.GetAsync(BASE_ADRESS + urlExtension);
+            response.EnsureSuccessStatusCode();
             return await response.Content.ReadAsStringAsync();
         }
 
@@ -21,6 +22,7 @@ namespace BusStation.UI.Services.Abstract
         {
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Properties.Settings.Default.AccessToken);
             HttpResponseMessage response = await _client.PostAsync(BASE_ADRESS + urlExtension, postContent);
+            response.EnsureSuccessStatusCode();
             return await response.Content.ReadAsStringAsync();
         }
 
@@ -28,12 +30,14 @@ namespace BusStation.UI.Services.Abstract
         {
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Properties.Settings.Default.AccessToken);
             HttpResponseMessage response = await _client.PutAsync(BASE_ADRESS + urlExtension, putContent);
+            response.EnsureSuccessStatusCode();
         }
 
         protected async Task DeleteAsync(string uriExtention)
         {
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Properties.Settings.Default.AccessToken);
             HttpResponseMessage response = await _client.DeleteAsync(BASE_ADRESS + uriExtention);
+            response.EnsureSuccessStatusCode();
         }
     }
 }

@@ -12,4 +12,10 @@
   <ItemGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
     <SourceRoot Include="C:\Users\Максим\.nuget\packages\" />
   </ItemGroup>
+  <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+    <PkgSyncfusion_Shared_WPF Condition=" '$(PkgSyncfusion_Shared_WPF)' == '' ">C:\Users\Максим\.nuget\packages\syncfusion.shared.wpf\20.2.0.36</PkgSyncfusion_Shared_WPF>
+    <PkgSyncfusion_SfMaps_WPF Condition=" '$(PkgSyncfusion_SfMaps_WPF)' == '' ">C:\Users\Максим\.nuget\packages\syncfusion.sfmaps.wpf\20.2.0.36</PkgSyncfusion_SfMaps_WPF>
+    <PkgSyncfusion_Grid_WPF Condition=" '$(PkgSyncfusion_Grid_WPF)' == '' ">C:\Users\Максим\.nuget\packages\syncfusion.grid.wpf\20.2.0.36</PkgSyncfusion_Grid_WPF>
+    <PkgMicrosoft_CodeAnalysis_Analyzers Condition=" '$(PkgMicrosoft_CodeAnalysis_Analyzers)' == '' ">C:\Users\Максим\.nuget\packages\microsoft.codeanalysis.analyzers\2.9.3</PkgMicrosoft_CodeAnalysis_Analyzers>
+  </PropertyGroup>
 </Project>

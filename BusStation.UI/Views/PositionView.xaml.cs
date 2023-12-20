@@ -1,8 +1,9 @@
-﻿using BusStation.UI.ViewModels;
-using System.Threading.Tasks;
-using System.Windows.Controls;
-using System.Windows;
+﻿using BusStation.UI.Services.Abstract;
 using BusStation.UI.Util;
+using BusStation.UI.ViewModels;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace BusStation.UI.Views
 {
@@ -11,11 +12,11 @@ namespace BusStation.UI.Views
     /// </summary>
     public partial class PositionView : UserControl
     {
-        public PositionView()
+        public PositionView(IPositionDataService positionDataService)
         {
             InitializeComponent();
             Loaded += PositionView_Loaded;
-            DataContext = new PositionViewModel();
+            DataContext = new PositionViewModel(positionDataService);
         }
 
         private async void PositionView_Loaded(object sender, System.Windows.RoutedEventArgs e)

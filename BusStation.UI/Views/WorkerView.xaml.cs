@@ -1,4 +1,5 @@
-﻿using BusStation.UI.Util;
+﻿using BusStation.UI.Services.Abstract;
+using BusStation.UI.Util;
 using BusStation.UI.ViewModels;
 using System;
 using System.Threading.Tasks;
@@ -12,11 +13,11 @@ namespace BusStation.UI.Views
     /// </summary>
     public partial class WorkerView : UserControl
     {
-        public WorkerView()
+        public WorkerView(IWorkerDataService workerDataService, IPositionDataService positionDataService)
         {
             InitializeComponent();
             Loaded += WorkerView_Loaded;
-            DataContext = new WorkerViewModel();
+            DataContext = new WorkerViewModel(workerDataService, positionDataService);
         }
 
         private async void WorkerView_Loaded(object sender, RoutedEventArgs e)

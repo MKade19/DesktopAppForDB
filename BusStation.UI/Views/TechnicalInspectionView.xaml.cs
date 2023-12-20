@@ -1,4 +1,5 @@
-﻿using BusStation.UI.Util;
+﻿using BusStation.UI.Services.Abstract;
+using BusStation.UI.Util;
 using BusStation.UI.ViewModels;
 using System;
 using System.Threading.Tasks;
@@ -12,11 +13,11 @@ namespace BusStation.UI.Views
     /// </summary>
     public partial class TechnicalInspectionView : UserControl
     {
-        public TechnicalInspectionView()
+        public TechnicalInspectionView(ITechnicalInspectionDataService technicalInspectionDataService, IBusDataService busDataService)
         {
             InitializeComponent();
             Loaded += TechnicalInspectionView_Loaded;
-            DataContext = new TechnicalInspectionViewModel();
+            DataContext = new TechnicalInspectionViewModel(technicalInspectionDataService, busDataService);
         }
 
         private async void TechnicalInspectionView_Loaded(object sender, RoutedEventArgs e)

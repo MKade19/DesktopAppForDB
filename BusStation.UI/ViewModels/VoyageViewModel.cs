@@ -1,5 +1,4 @@
 ﻿using BusStation.Common.Models;
-using BusStation.UI.Services;
 using BusStation.UI.Services.Abstract;
 using System;
 using System.Collections.ObjectModel;
@@ -11,10 +10,10 @@ namespace BusStation.UI.ViewModels
     public class VoyageViewModel : ViewModelBase
     {
         private Voyage _voyage = new Voyage();
-        private IVoyageDataService VoyageDataService { get; } = new VoyageDataService();
-        private IBusDataService BusDataService { get; } = new BusDataService();
-        private IWorkerDataService WorkerDataService { get; } = new WorkerDataService();
-        private IBusRouteDataService BusRouteDataService { get; } = new BusRouteDataService();
+        private IVoyageDataService VoyageDataService { get; }
+        private IBusDataService BusDataService { get; }
+        private IWorkerDataService WorkerDataService { get; }
+        private IBusRouteDataService BusRouteDataService { get; }
 
         private ObservableCollection<Voyage> _voyages;
         private ObservableCollection<Worker> _workers;
@@ -23,6 +22,14 @@ namespace BusStation.UI.ViewModels
         private BusRoute _currentBusRoute;
         private Worker _currentWorker;
         private Bus _currentBus;
+
+        public VoyageViewModel(IVoyageDataService voyageDataService, IBusRouteDataService busRouteDataService, IWorkerDataService workerDataService, IBusDataService busDataService)
+        {
+            VoyageDataService = voyageDataService;
+            BusDataService = busDataService;
+            WorkerDataService = workerDataService;
+            BusRouteDataService = busRouteDataService;
+        }
 
         public BusRoute CurrentBusRoute
         {

@@ -1,11 +1,8 @@
 ﻿using BusStation.Common.Models;
-using BusStation.UI.Services;
 using BusStation.UI.Services.Abstract;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BusStation.UI.ViewModels
@@ -13,14 +10,21 @@ namespace BusStation.UI.ViewModels
     public class RepairmentViewModel : ViewModelBase
     {
         private Repairment _repairment = new Repairment();
-        private IRepairmentDataService RepairmentDataService = new RepairmentDataService();
-        private IWorkerDataService WorkerDataService = new WorkerDataService();
-        private IBusDataService BusDataService = new BusDataService();
+        private IRepairmentDataService RepairmentDataService { get; }
+        private IWorkerDataService WorkerDataService {  get; }
+        private IBusDataService BusDataService {  get; }
         private ObservableCollection<Repairment> _repairments;
         private ObservableCollection<Worker> _workers;
         private ObservableCollection<Bus> _buses;
         private Worker _currentWorker;
         private Bus _currentBus;
+
+        public RepairmentViewModel(IRepairmentDataService repairmentDataService, IBusDataService busDataService, IWorkerDataService workerDataService)
+        {
+            RepairmentDataService = repairmentDataService;
+            BusDataService = busDataService;
+            WorkerDataService = workerDataService;
+        }
 
         public Bus CurrentBus
         {
