@@ -14,12 +14,12 @@ namespace BusStation.Common.Models
         public string Username { get; set; } = string.Empty;
 
         [JsonPropertyName("password")]
-        [Required]
         [StringLength(255)]
         public string Password { get; set; } = string.Empty;
 
         public byte[]? Salt { get; set; }
 
+        [JsonPropertyName("role")]
         public string? Role { get; set; } = string.Empty;
 
         [JsonConstructor]

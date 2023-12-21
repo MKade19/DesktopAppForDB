@@ -30,6 +30,20 @@ namespace BusStation.API.Controllers
             return await RepairmentService.GetByIdAsync(id);
         }
 
+        [HttpGet("bus/{number}")]
+        [Authorize]
+        public async Task<IEnumerable<Repairment>> GetByBusNumberAsync(string number)
+        {
+            return await RepairmentService.GetByBusNumberAsync(number);
+        }
+
+        [HttpGet("year-count")]
+        [Authorize]
+        public async Task<IEnumerable<RepairmentYearWithCount>> GetYearsWithCountAsync()
+        {
+            return await RepairmentService.GetYearsWithCountAsync();
+        }
+
         [HttpPost]
         [Authorize(Roles = "admin")]
         public async Task<ActionResult> CreateOneAsync([FromBody] Repairment repairment)

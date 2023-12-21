@@ -131,5 +131,21 @@ namespace BusStation.UI.Views
 
             await LoadRepairmentsAsync();
         }
+
+        private async void SearchButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(SearchTextBox.Text))
+            {
+                MessageBoxStore.Warning("Введите значение для поиска!");
+                return;
+            }
+
+            await ((RepairmentViewModel)DataContext).LoadRepairmentsByBusNumberAsync();
+        }
+
+        private async void RefreshSearchButton_Click(object sender, RoutedEventArgs e)
+        {
+            await LoadRepairmentsAsync();
+        }
     }
 }

@@ -30,6 +30,13 @@ namespace BusStation.API.Controllers
             return await VoyageService.GetByIdAsync(id);
         }
 
+        [HttpGet("route/{number}")]
+        [Authorize]
+        public async Task<IEnumerable<Voyage>> GetByRouteNumberAsync(string number)
+        {
+            return await VoyageService.GetByRouteNumberAsync(number);
+        }
+
         [HttpPost]
         [Authorize(Roles = "admin")]
         public async Task<ActionResult> CreateOneAsync([FromBody] Voyage voyage)

@@ -44,6 +44,7 @@ namespace BusStation.UI
             services.AddTransient<IRepairmentDataService, RepairmentDataService>();
             services.AddTransient<IVoyageDataService, VoyageDataService>();
             services.AddTransient<IAuthDataService, AuthDataService>();
+            services.AddTransient<IUserDataService, UserDataService>();
             services.AddSingleton<UserStateViewModel>();
             services.AddSingleton<MainWindow>();
         }

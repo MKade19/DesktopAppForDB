@@ -52,7 +52,7 @@ namespace BusStation.API.Services
             Worker potentialWorker = await WorkerRepository.GetByNameAsync(worker.Fullname);
             Position position = await PositionRepository.GetByIdAsync(worker.PositionId);
 
-            if (potentialWorker.Id != -1)
+            if (potentialWorker.Id != -1 && worker.Id == -1)
             {
                 throw new BadRequestException("There is such a worker with this name!");
             }

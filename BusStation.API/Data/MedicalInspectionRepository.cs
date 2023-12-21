@@ -62,6 +62,41 @@ namespace BusStation.API.Data
             }
         }
 
+        public async Task<IEnumerable<MedicalInspection>> GetAllAscAsync()
+        {
+            string sqlExpression = "usp_select_medical_inspections_date_asc";
+            List<MedicalInspection> medicalInspections = new List<MedicalInspection>();
+
+            try
+            {
+                await _connection.OpenAsync();
+
+                SqlCommand command = new SqlCommand(sqlExpression, _connection);
+                command.CommandType = CommandType.StoredProcedure;
+
+                using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                {
+                    if (reader.HasRows)
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            medicalInspections.Add(GetMedicalInspectionFromReader(reader));
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
+
+            return medicalInspections;
+        }
+
         public async Task<IEnumerable<MedicalInspection>> GetAllAsync()
         {
             string sqlExpression = "usp_select_medical_inspections";
@@ -87,6 +122,41 @@ namespace BusStation.API.Data
             }
             catch (Exception) 
             {  
+                throw;
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
+
+            return medicalInspections;
+        }
+
+        public async Task<IEnumerable<MedicalInspection>> GetAllDescAsync()
+        {
+            string sqlExpression = "usp_select_medical_inspections_date_desc";
+            List<MedicalInspection> medicalInspections = new List<MedicalInspection>();
+
+            try
+            {
+                await _connection.OpenAsync();
+
+                SqlCommand command = new SqlCommand(sqlExpression, _connection);
+                command.CommandType = CommandType.StoredProcedure;
+
+                using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                {
+                    if (reader.HasRows)
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            medicalInspections.Add(GetMedicalInspectionFromReader(reader));
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
                 throw;
             }
             finally

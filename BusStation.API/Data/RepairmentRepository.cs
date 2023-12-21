@@ -52,7 +52,6 @@ namespace BusStation.API.Data
                 command.Parameters.Add(new SqlParameter("id", id));
 
                 await command.ExecuteNonQueryAsync();
-
             }
             catch (Exception)
             {
@@ -100,6 +99,43 @@ namespace BusStation.API.Data
             return repairments;
         }
 
+        public async Task<IEnumerable<Repairment>> GetByBusNumberAsync(string busNumber)
+        {
+            string sqlExpression = "usp_search_repairments_by_bus_number";
+            List<Repairment> repairments = new List<Repairment>();
+
+            try
+            {
+                await _connection.OpenAsync();
+
+                SqlCommand command = new SqlCommand(sqlExpression, _connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add(new SqlParameter("busNumber", busNumber));
+
+                using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                {
+                    if (reader.HasRows)
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            repairments.Add(GetRepairmentFromReader(reader));
+                        }
+                    }
+                }
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
+
+            return repairments;
+        }
+
         public async Task<Repairment> GetByIdAsync(int id)
         {
             string sqlExpression = "usp_select_repairment_by_id";
@@ -132,6 +168,42 @@ namespace BusStation.API.Data
             }
 
             return repairment ?? new Repairment();
+        }
+
+        public async Task<IEnumerable<RepairmentYearWithCount>> GetYearsWithCountAsync()
+        {
+            string sqlExpression = "usp_select_repairments_years_with_count";
+            List<RepairmentYearWithCount> repairmentYears = new List<RepairmentYearWithCount>();
+
+            try
+            {
+                await _connection.OpenAsync();
+
+                SqlCommand command = new SqlCommand(sqlExpression, _connection);
+                command.CommandType = CommandType.StoredProcedure;
+
+                using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                {
+                    if (reader.HasRows)
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            repairmentYears.Add(GetYearWithCountFromReader(reader));
+                        }
+                    }
+                }
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
+
+            return repairmentYears;
         }
 
         public async Task UpdateByIdAsync(Repairment repairment)
@@ -184,6 +256,13 @@ namespace BusStation.API.Data
                 workerName, 
                 busNumber
             );
+        }
+
+        private RepairmentYearWithCount GetYearWithCountFromReader(SqlDataReader reader)
+        {
+            int year = reader.GetInt32("repairments_year");
+            int count = reader.GetInt32("repairments_count");
+            return new RepairmentYearWithCount(year, count);
         }
     }
 }

@@ -27,6 +27,11 @@ namespace BusStation.UI.Services
             return JsonSerializer.Deserialize<List<Voyage>>(await GetAsync(VOYAGE_URL)) ?? new List<Voyage>();
         }
 
+        public async Task<IEnumerable<Voyage>> GetByRouteNumberAsync(string routeNumber)
+        {
+            return JsonSerializer.Deserialize<List<Voyage>>(await GetAsync(VOYAGE_URL + "/route/" + routeNumber)) ?? new List<Voyage>();
+        }
+
         public async Task<Voyage> GetByIdAsync(int id)
         {
             return JsonSerializer.Deserialize<Voyage>(await GetAsync(VOYAGE_URL + "/" + id)) ?? new Voyage();

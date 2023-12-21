@@ -139,6 +139,18 @@ namespace BusStation.UI.ViewModels
             MedicalInspections = new ObservableCollection<MedicalInspection>(loadedMedicalInspections);
         }
 
+        public async Task LoadMedicalInspectionsAscAsync()
+        {
+            var loadedMedicalInspections = await MedicalInspectionDataService.GetAllAscAsync();
+            MedicalInspections = new ObservableCollection<MedicalInspection>(loadedMedicalInspections);
+        }
+
+        public async Task LoadMedicalInspectionsDecsAsync()
+        {
+            var loadedMedicalInspections = await MedicalInspectionDataService.GetAllDescAsync();
+            MedicalInspections = new ObservableCollection<MedicalInspection>(loadedMedicalInspections);
+        }
+
         public async Task LoadWorkersAsync()
         {
             var loadedWorkers = await WorkerDataService.GetAllAsync();

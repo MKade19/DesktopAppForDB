@@ -26,7 +26,6 @@ namespace BusStation.Common.Models
         public int BusRouteId { get; set; } = -1;
 
         [JsonPropertyName("route_number")]
-        [Required]
         public string? BusRouteNumber { get; set; }
 
         [JsonPropertyName("worker_id")]
@@ -37,6 +36,7 @@ namespace BusStation.Common.Models
         public string? WorkerName { get; set; }
 
         [JsonPropertyName("bus_id")]
+        [Required]
         public int BusId { get; set; } = -1;
 
         [JsonPropertyName("bus_number")]

@@ -12,8 +12,9 @@ namespace BusStation.UI.Services
         public async Task LoginAsync(User user)
         {
             JsonContent content = JsonContent.Create(user);
-            Token token = JsonSerializer.Deserialize<Token>(await PostAsync(content, AUTH_URL + "/login")) ?? new Token();
-            Properties.Settings.Default.AccessToken = token.Value;
+            AuthData authData = JsonSerializer.Deserialize<AuthData>(await PostAsync(content, AUTH_URL + "/login")) ?? new AuthData();
+            Properties.Settings.Default.AccessToken = authData.Token;
+            Properties.Settings.Default.Role = authData.Role;
         }
     }
 }

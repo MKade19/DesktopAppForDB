@@ -7,7 +7,7 @@
              xmlns:viewModels="clr-namespace:BusStation.UI.ViewModels"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
-             d:DataContext="{d:DesignInstance viewModels:BusViewModel, IsDesignTimeCreatable=True}"
+             d:DataContext="{d:DesignInstance viewModels:BusViewModel}"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Margin="5,5,5,5">
         <Grid.ColumnDefinitions>
@@ -24,13 +24,14 @@
             Grid.Column="0" 
             SelectionMode="Single" 
             IsReadOnly="True" 
+            IsEnabled="{Binding Source={x:Static viewModels:UserStateViewModel.Instance}, Path=IsUserAdmin}"
             FontSize="18" 
             AutoGenerateColumns="False"
             SelectionChanged="BusesGrid_SelectionChanged"
             ItemsSource="{Binding Buses}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Гос. номер" Width="120" Binding="{Binding StateNumber}"/>
-                <DataGridTextColumn Header="Дата поставки" Binding="{Binding DeliveryDate, StringFormat=d}"/>
+                <DataGridTextColumn Header="Дата поставки" Binding="{Binding DeliveryDate, StringFormat=dd.MM.yyyy}"/>
                 <DataGridTextColumn Header="Цвет" Width="90" Binding="{Binding Color}"/>
                 <DataGridTextColumn Header="Номер гаража" Binding="{Binding GarageNumber}"/>
                 <DataGridTextColumn Header="Модель" Binding="{Binding BusModelTitle}"/>
@@ -85,7 +86,13 @@
             <Button x:Name="SubmitButton" Content="Отправить" FontSize="18" Width="110" Height="44" Margin="0,10" Click="SubmitButton_Click"/>
         </StackPanel>
 
-        <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <StackPanel 
+            Grid.Row="1" 
+            Grid.Column="0" 
+            Orientation="Horizontal" 
+            HorizontalAlignment="Center" 
+            VerticalAlignment="Center"
+            Visibility="{Binding Source={x:Static viewModels:UserStateViewModel.Instance}, Path=IsUserAdmin, Converter={StaticResource BoolToVisibleConverter}}">
             <Button x:Name="CreateButton" Content="Создать" FontSize="18" Width="120" Height="44" Margin="0,0,30,0" Click="CreateButton_Click"/>
             <Button x:Name="DeleteButton" Content="Удалить" FontSize="18" Width="120" Height="44" Margin="0,0,30,0" Click="DeleteButton_Click"/>
         </StackPanel>

@@ -135,6 +135,43 @@ namespace BusStation.API.Data
             return voyage ?? new Voyage();
         }
 
+        public async Task<IEnumerable<Voyage>> GetByRouteNumberAsync(string routeNumber)
+        {
+            string sqlExpression = "usp_select_voyages_by_route_number";
+            List<Voyage> voyages = new List<Voyage>();
+
+            try
+            {
+                await _connection.OpenAsync();
+
+                SqlCommand command = new SqlCommand(sqlExpression, _connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add(new SqlParameter("routeNumber", routeNumber));
+
+                using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                {
+                    if (reader.HasRows)
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            voyages.Add(GetVoyageFromReader(reader));
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+
+            }
+
+            return voyages;
+        }
+
         public async Task UpdateByIdAsync(Voyage voyage)
         {
             string sqlExpression = "usp_update_voyage_by_id";

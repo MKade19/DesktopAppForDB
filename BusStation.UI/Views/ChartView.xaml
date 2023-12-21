@@ -8,7 +8,30 @@
              xmlns:DVC="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=DotNetProjects.DataVisualization.Toolkit"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <DVC:Chart x:Name="MainChart"></DVC:Chart>
+    <Grid Margin="5,5,5,5">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.5*"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Text="Выбор диаграммы" Grid.Column="0" Margin="0,29,0,361" TextAlignment="Center" FontSize="22" FontWeight="Bold"/>
+        <ListBox x:Name="ChartsListBox" Padding="0,5,0,5" Height="250" FontSize="18" Margin="0,95,5,95" HorizontalAlignment="Center" SelectionChanged="ChartsListBox_SelectionChanged">
+            <ListBoxItem Background="LightGray" Content="Кол-во цветов автобусов"/>
+            <ListBoxItem Content="Кол-во ремонтов по годам"/>
+        </ListBox>
+
+        <DVC:Chart x:Name="MainChart" Grid.Column="1" Canvas.Top="80" Canvas.Left="10"  
+            Background="LightSteelBlue" HorizontalAlignment="Center" VerticalAlignment="Center" Height="391" Width="483">
+            <DVC:Chart.Series>
+                <DVC:PieSeries Visibility="Collapsed" Title="Кол-во автобусов"  
+                    IndependentValueBinding="{Binding Path=Key}"  
+                    DependentValueBinding="{Binding Path=Value}">
+                </DVC:PieSeries>
+                <DVC:LineSeries Visibility="Collapsed" Title="Кол-во ремонтов по годам"  
+                    IndependentValueBinding="{Binding Path=Key}"  
+                    DependentValueBinding="{Binding Path=Value}">
+                </DVC:LineSeries>
+            </DVC:Chart.Series>
+        </DVC:Chart>
     </Grid>
 </UserControl>

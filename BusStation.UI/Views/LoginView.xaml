@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:BusStation.UI.Views"
              xmlns:viewModels="clr-namespace:BusStation.UI.ViewModels"
-             d:DataContext="{d:DesignInstance viewModels:LoginViewModel, IsDesignTimeCreatable=True}"
+             d:DataContext="{d:DesignInstance viewModels:LoginViewModel}"
              mc:Ignorable="d" HorizontalAlignment="Center" VerticalAlignment="Center" Height="377" Width="619">
     <Grid FocusManager.FocusedElement="{Binding ElementName=LoginBox}" HorizontalAlignment="Center" VerticalAlignment="Center" Height="356" Width="524" RenderTransformOrigin="0.5,0.5">
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Height="336" Width="524">

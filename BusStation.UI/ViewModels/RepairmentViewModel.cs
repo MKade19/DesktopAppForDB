@@ -18,6 +18,7 @@ namespace BusStation.UI.ViewModels
         private ObservableCollection<Bus> _buses;
         private Worker _currentWorker;
         private Bus _currentBus;
+        private string _busNumberForSearch;
 
         public RepairmentViewModel(IRepairmentDataService repairmentDataService, IBusDataService busDataService, IWorkerDataService workerDataService)
         {
@@ -138,6 +139,16 @@ namespace BusStation.UI.ViewModels
             }
         }
 
+        public string BusNumberForSearch
+        {
+            get { return _busNumberForSearch; }
+            set
+            {
+                _busNumberForSearch = value;
+                OnPropertyChanged(nameof(BusNumberForSearch));
+            }
+        }
+
         public void ChangeCurrentRepairment(object repairment)
         {
             Repairment newRepairment = (Repairment)repairment;
@@ -169,6 +180,12 @@ namespace BusStation.UI.ViewModels
             var loadedBuses = await BusDataService.GetAllAsync();
             Buses = new ObservableCollection<Bus>(loadedBuses);
             CurrentBus = Buses[0];
+        }
+
+        public async Task LoadRepairmentsByBusNumberAsync()
+        {
+            var loadedRepairments = await RepairmentDataService.GetByBusNumberAsync(BusNumberForSearch);
+            Repairments = new ObservableCollection<Repairment>(loadedRepairments);
         }
 
         public async Task CreateRepairmentAsync()

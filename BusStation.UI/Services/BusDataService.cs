@@ -31,6 +31,11 @@ namespace BusStation.UI.Services
             return JsonSerializer.Deserialize<Bus>(await GetAsync(BUS_URL + "/" + id)) ?? new Bus();
         }
 
+        public async Task<IEnumerable<BusColorWithCount>> GetColorsWithCountAsync()
+        {
+            return JsonSerializer.Deserialize<List<BusColorWithCount>>(await GetAsync(BUS_URL + "/colors-count")) ?? new List<BusColorWithCount>();
+        }
+
         public async Task UpdateByIdAsync(Bus bus)
         {
             JsonContent content = JsonContent.Create(bus);

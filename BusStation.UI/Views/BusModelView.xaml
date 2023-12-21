@@ -5,11 +5,15 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:BusStation.UI.Views"
              xmlns:viewModels="clr-namespace:BusStation.UI.ViewModels"
+             xmlns:converters="clr-namespace:BusStation.UI.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="500" 
              d:DesignWidth="800"
              x:Name="Root"
              d:DataContext="{d:DesignInstance viewModels:BusModelViewModel}">
+    <UserControl.Resources>
+        <converters:BoolToVisibleConverter x:Key="boolToVisibleConverter" />
+    </UserControl.Resources>
     <Grid Margin="5,5,5,5">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1.5*"/>
@@ -24,7 +28,8 @@
             x:Name="ModelsGrid"
             Grid.Column="0" 
             SelectionMode="Single" 
-            IsReadOnly="True"
+            IsReadOnly="True"            
+            IsEnabled="{Binding Source={x:Static viewModels:UserStateViewModel.Instance}, Path=IsUserAdmin}"
             FontSize="18"
             AutoGenerateColumns="False"
             ItemsSource="{Binding Models}" 
@@ -63,7 +68,13 @@
             <Button x:Name="SubmitButton" Content="Отправить" FontSize="18" Width="104" Height="44" Margin="0,10" Click="SubmitButton_Click"/>
         </StackPanel>
         
-        <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <StackPanel  
+            Grid.Row="1" 
+            Grid.Column="0" 
+            Orientation="Horizontal" 
+            HorizontalAlignment="Center" 
+            VerticalAlignment="Center"
+            Visibility="{Binding Source={x:Static viewModels:UserStateViewModel.Instance}, Path=IsUserAdmin, Converter={StaticResource BoolToVisibleConverter}}">
             <Button x:Name="CreateButton" Content="Создать" FontSize="18" Width="120" Height="44" Margin="0,0,30,0" Click="CreateButton_Click"/>
             <Button x:Name="DeleteButton" Content="Удалить" FontSize="18" Width="120" Height="44" Margin="0,0,30,0" Click="DeleteButton_Click"/>
         </StackPanel>

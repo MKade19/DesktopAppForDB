@@ -29,7 +29,6 @@ namespace BusStation.UI.Views
         private async Task LoadMedicalInspectionsAsync()
         {
             await ((MedicalInspectionViewModel)DataContext).LoadMedicalInspectionsAsync();
-
         }
 
         private async Task LoadWorkersAsync()
@@ -124,6 +123,16 @@ namespace BusStation.UI.Views
             ((MedicalInspectionViewModel)DataContext).ChangeCurrentMedicalInspection(e.AddedItems[0]);
             ToggleEditCreateForms();
             InspectionDatePicker.Focus();
+        }
+
+        private async void DescSort_Click(object sender, RoutedEventArgs e)
+        {
+            await((MedicalInspectionViewModel)DataContext).LoadMedicalInspectionsDecsAsync();
+        }
+
+        private async void AscSort_Click(object sender, RoutedEventArgs e)
+        {
+            await((MedicalInspectionViewModel)DataContext).LoadMedicalInspectionsAscAsync();
         }
     }
 }

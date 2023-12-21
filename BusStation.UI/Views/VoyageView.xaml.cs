@@ -138,5 +138,21 @@ namespace BusStation.UI.Views
             ToggleEditCreateForms();
             VoyageDatePicker.Focus();
         }
+
+        private async void RouteFilterComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(RouteFilterComboBox.SelectedIndex == -1) 
+            {
+                return;
+            }
+
+            await ((VoyageViewModel)DataContext).LoadVoyagesByRouteNumberAsync();
+        }
+
+        private async void RefreshButton_Click(object sender, RoutedEventArgs e)
+        {
+            RouteFilterComboBox.SelectedIndex = -1;
+            await LoadVoyagesAsync();
+        }
     }
 }

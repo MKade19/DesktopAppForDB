@@ -3,18 +3,23 @@ using System.Text.Json.Serialization;
 
 namespace BusStation.Common.Models
 {
-    public class Token
+    public class AuthData
     {
-        [JsonPropertyName("value")]
+        [JsonPropertyName("token")]
         [Required]
-        public string Value { get; set; } = string.Empty;
+        public string Token { get; set; } = string.Empty;
+
+        [JsonPropertyName("role")]
+        [Required]
+        public string? Role { get; set; } = string.Empty;
 
         [JsonConstructor]
-        public Token(string value) 
+        public AuthData(string token, string? role) 
         {
-            Value = value;
+            Token = token;
+            Role = role;
         }
 
-        public Token() { }
+        public AuthData() { }
     }
 }

@@ -169,6 +169,41 @@ namespace BusStation.API.Data
             return bus ?? new Bus();
         }
 
+        public async Task<IEnumerable<BusColorWithCount>> GetColorsWithCount()
+        {
+            string sqlExpression = "usp_select_bus_colors_with_count";
+            List<BusColorWithCount> busColors = new List<BusColorWithCount>();
+
+            try
+            {
+                await _connection.OpenAsync();
+
+                SqlCommand command = new SqlCommand(sqlExpression, _connection);
+                command.CommandType = CommandType.StoredProcedure;
+
+                using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                {
+                    if (reader.HasRows)
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            busColors.Add(GetColorFromReader(reader));
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
+
+            return busColors;
+        }
+
         public async Task UpdateByIdAsync(Bus bus)
         {
             string sqlExpression = "usp_update_bus_by_id";
@@ -209,6 +244,14 @@ namespace BusStation.API.Data
             string modelTitle = reader.GetString("model_title");
 
             return new Bus(id, stateNumber, deliveryDate, color, garageNumber, modelId, modelTitle);
+        }
+        
+        private BusColorWithCount GetColorFromReader(SqlDataReader reader)
+        {
+            string color = reader.GetString("color");
+            int busCount = reader.GetInt32("bus_count");
+
+            return new BusColorWithCount(color, busCount);
         }
     }
 }

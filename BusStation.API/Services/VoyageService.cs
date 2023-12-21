@@ -72,5 +72,10 @@ namespace BusStation.API.Services
                 throw new BadRequestException("DepartureTime must be less than ArrivalTime!");
             }
         }
+
+        public async Task<IEnumerable<Voyage>> GetByRouteNumberAsync(string routeNumber)
+        {
+            return await VoyageRepository.GetByRouteNumberAsync(routeNumber);
+        }
     }
 }

@@ -51,5 +51,15 @@ namespace BusStation.API.Services
                 throw new BadRequestException("There is no such a worker!");
             }
         }
+
+        public async Task<IEnumerable<MedicalInspection>> GetAllAscAsync()
+        {
+            return await MedicalInspetionRepository.GetAllAscAsync();
+        }
+
+        public async Task<IEnumerable<MedicalInspection>> GetAllDescAsync()
+        {
+            return await MedicalInspetionRepository.GetAllDescAsync();
+        }
     }
 }

@@ -17,7 +17,7 @@ namespace BusStation.API.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<Token> Login([FromBody] User user)
+        public async Task<AuthData> Login([FromBody] User user)
         {
             return await AuthService.Login(user);
         }
@@ -30,7 +30,7 @@ namespace BusStation.API.Controllers
         }
 
         [HttpPost("register")]
-        //[Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin")]
         public async Task Register([FromBody] User user)
         {
             await AuthService.Register(user);

@@ -27,9 +27,19 @@ namespace BusStation.UI.Services
             return JsonSerializer.Deserialize<List<Repairment>>(await GetAsync(REPAIRMENT_URL)) ?? new List<Repairment>();
         }
 
+        public async Task<IEnumerable<Repairment>> GetByBusNumberAsync(string busNumber)
+        {
+            return JsonSerializer.Deserialize<List<Repairment>>(await GetAsync(REPAIRMENT_URL + "/bus/" + busNumber)) ?? new List<Repairment>();
+        }
+
         public async Task<Repairment> GetByIdAsync(int id)
         {
             return JsonSerializer.Deserialize<Repairment>(await GetAsync(REPAIRMENT_URL + "/" + id)) ?? new Repairment();
+        }
+
+        public async Task<IEnumerable<RepairmentYearWithCount>> GetYearsWithCountAsync()
+        {
+            return JsonSerializer.Deserialize<List<RepairmentYearWithCount>>(await GetAsync(REPAIRMENT_URL + "/year-count")) ?? new List<RepairmentYearWithCount>();
         }
 
         public async Task UpdateByIdAsync(Repairment repairment)

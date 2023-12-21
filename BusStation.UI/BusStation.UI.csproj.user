@@ -37,6 +37,9 @@
     <Compile Update="Views\TechnicalInspectionView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\UserView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\VoyageView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -76,6 +79,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\TechnicalInspectionView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\UserView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\VoyageView.xaml">

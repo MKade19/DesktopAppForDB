@@ -15,14 +15,16 @@
             <ColumnDefinition Width="1033*"/>
         </Grid.ColumnDefinitions>
         <Menu x:Name="MainMenu" Height="25" Margin="0,5,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.ColumnSpan="2" Width="1100" FontSize="14">
+            <MenuItem x:Name="TablesButton" IsEnabled="{Binding Source={x:Static viewModels:UserStateViewModel.Instance}, Path=IsUserAuthorized}" Header="Таблицы" Click="TablesButton_Click"/>
             <MenuItem x:Name="ReportsButton" IsEnabled="{Binding Source={x:Static viewModels:UserStateViewModel.Instance}, Path=IsUserAuthorized}" Header="Отчеты" Click="ReportsButton_Click"/>
+            <MenuItem x:Name="ChartsButton" IsEnabled="{Binding Source={x:Static viewModels:UserStateViewModel.Instance}, Path=IsUserAuthorized}" Header="Диаграммы" Click="ChartsButton_Click"/>
             <MenuItem x:Name="LogoutButton" IsEnabled="{Binding Source={x:Static viewModels:UserStateViewModel.Instance}, Path=IsUserAuthorized}" Header="Выйти" Click="LogoutButton_Click"/>
         </Menu>
         <TabControl x:Name="MainWindowContainer"
                     SelectedIndex="0" Grid.ColumnSpan="2" Margin="0,30,0,0"
                     >
-            <TabItem x:Name="LoginTab" Visibility="Visible"/>
-            <TabItem Visibility="Visible">
+            <TabItem x:Name="LoginTab" Visibility="Collapsed"/>
+            <TabItem Visibility="Collapsed">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="15.061"/>
@@ -33,7 +35,7 @@
 
                     <StackPanel Grid.Column="0" Margin="5,5,5,5" Grid.ColumnSpan="3">
                         <Label Content="Выбор таблицы" FontSize="16" FontWeight="Bold"/>
-                        <ListBox x:Name="TablesListBox" Padding="0,5,0,5" Height="317" FontSize="18" SelectionChanged="TablesListBox_SelectionChanged">
+                        <ListBox x:Name="TablesListBox" Padding="0,5,0,5" Height="330" FontSize="18" SelectionChanged="TablesListBox_SelectionChanged">
                             <ListBoxItem Background="LightGray" Content="Производители автобусов"/>
                             <ListBoxItem Content="Модели автобусов"/>
                             <ListBoxItem Background="LightGray" Content="Автобусы"/>
@@ -44,13 +46,14 @@
                             <ListBoxItem Content="Техосмотры"/>
                             <ListBoxItem Background="LightGray" Content="Ремонты"/>
                             <ListBoxItem Content="Рейсы"/>
+                            <ListBoxItem Background="LightGray" Visibility="{Binding Source={x:Static viewModels:UserStateViewModel.Instance}, Path=IsUserAdmin, Converter={StaticResource BoolToVisibleConverter}}" Content="Пользователи"/>
                         </ListBox>
                     </StackPanel>
 
                     <ContentControl Grid.Column="3" x:Name="ViewContainer"/>
                 </Grid>
             </TabItem>
-            <TabItem>
+            <TabItem Visibility="Visible">
                 <Grid HorizontalAlignment="Center" Width="1002" VerticalAlignment="Center" Height="421">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1.7*"/>
@@ -64,9 +67,8 @@
                             <ListBoxItem Background="LightGray" Content="Информация о рейсах"/>
                         </ListBox>
                     </StackPanel>
-                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Top" Width="402" Height="111" Margin="0,310,0,0">
-                        <Button x:Name="OpenReportButnon" Content="Открыть отчёт" Margin="0,0,20,0" Width="172" Height="39" FontSize="18" HorizontalAlignment="Center" Click="OpenReportButnon_Click"/>
-                        <Button x:Name="BackToTablesButnon" Content="Вернуться к таблицам" Width="202" Height="39" FontSize="18" Click="BackToTablesButtnon_Click" HorizontalAlignment="Center"/>
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Width="402" Height="90" Margin="0,331,0,0">
+                        <Button x:Name="OpenReportButnon" Content="Открыть отчёт" Width="172" Height="38" FontSize="18" HorizontalAlignment="Center" Click="OpenReportButnon_Click" VerticalAlignment="Center"/>
                     </StackPanel>
                     <StackPanel x:Name="ReportForm" Visibility="Collapsed" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="339" Height="141">
                         <StackPanel Orientation="Horizontal" Width="366" Height="75" HorizontalAlignment="Left">
@@ -85,8 +87,8 @@
                     </StackPanel>
                 </Grid>
             </TabItem>
-            <TabItem x:Name="ReportTab">
-
+            <TabItem x:Name="ChartTab" Visibility="Collapsed">
+                
             </TabItem>
         </TabControl>
 

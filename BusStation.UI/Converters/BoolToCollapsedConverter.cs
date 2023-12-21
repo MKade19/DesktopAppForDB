@@ -5,7 +5,7 @@ using System.Windows.Data;
 
 namespace BusStation.UI.Converters
 {
-    internal class BoolToCollapsedConverter : IValueConverter
+    public class BoolToCollapsedConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

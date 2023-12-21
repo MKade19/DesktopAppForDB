@@ -18,9 +18,9 @@ namespace BusStation.API.Services
             TokenService = tokenService;
         }
 
-        public async Task<Token> Login(User user)
+        public async Task<AuthData> Login(User user)
         {
-            User userFromDB = await UserRepository.GetUserByUsername(user.Username);
+            User userFromDB = await UserRepository.GetUserByUsernameAsync(user.Username);
 
             if (userFromDB.Id == -1) 
             {
@@ -32,9 +32,9 @@ namespace BusStation.API.Services
                 throw new BadRequestException("Incorrect password!");
             }
 
-            Token token = new Token(TokenService.GetToken(userFromDB));
+            AuthData authData = new AuthData(TokenService.GetToken(userFromDB), userFromDB.Role);
 
-            return token;
+            return authData;
         }
 
         public Task Logout()

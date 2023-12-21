@@ -48,7 +48,7 @@ namespace BusStation.API.Services
             Bus potentialBus = await BusRepository.GetByNumberAsync(bus.StateNumber);
             BusModel busModel = await BusModelRepository.GetByIdAsync(bus.BusModelId);
 
-            if (potentialBus.Id != -1)
+            if (potentialBus.Id != -1 && bus.Id == -1)
             {
                 throw new BadRequestException("There is such a bus with this number!");
             }
@@ -57,6 +57,11 @@ namespace BusStation.API.Services
             {
                 throw new BadRequestException("There is no such a model!");
             }
+        }
+
+        public async Task<IEnumerable<BusColorWithCount>> GetColorsWithCount()
+        {
+            return await BusRepository.GetColorsWithCount();
         }
     }
 }

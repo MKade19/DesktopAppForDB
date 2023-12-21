@@ -23,6 +23,20 @@ namespace BusStation.API.Controllers
             return await MedicalInspectionService.GetAllAsync();
         }
 
+        [HttpGet("asc")]
+        [Authorize]
+        public async Task<IEnumerable<MedicalInspection>> GetAllAscAsync()
+        {
+            return await MedicalInspectionService.GetAllAscAsync();
+        }
+
+        [HttpGet("desc")]
+        [Authorize]
+        public async Task<IEnumerable<MedicalInspection>> GetAllDescAsync()
+        {
+            return await MedicalInspectionService.GetAllDescAsync();
+        }
+
         [HttpGet("{id}")]
         [Authorize]
         public async Task<MedicalInspection> GetByIdAsync(int id)

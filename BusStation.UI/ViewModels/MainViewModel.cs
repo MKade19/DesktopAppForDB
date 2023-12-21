@@ -11,7 +11,6 @@ namespace BusStation.UI.ViewModels
         private IBusModelDataService BusModelDataService { get; }
         private ITechnicalInspectionDataService TechnicalInspectionDataService { get; }
         private IVoyageDataService VoyageDataService { get; }
-        private List<BusModelWithDistance> _busModelWithDistances { get; set; }
         private int _numberBoxValue { get; set; }
         private bool _checkBoxValue { get; set; }
 

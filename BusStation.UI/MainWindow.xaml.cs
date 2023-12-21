@@ -22,6 +22,7 @@ namespace BusStation.UI
         private IRepairmentDataService RepairmentDataService{  get; }
         private IVoyageDataService VoyageDataService {  get; }
         private IAuthDataService AuthDataService {  get; }
+        private IUserDataService UserDataService {  get; }
 
         public MainWindow(
             IBusProducerDataService busProducerDataService, 
@@ -34,7 +35,8 @@ namespace BusStation.UI
             ITechnicalInspectionDataService technicalInspectionDataService,
             IRepairmentDataService repairmentDataService,
             IVoyageDataService voyageDataService,
-            IAuthDataService authDataService
+            IAuthDataService authDataService,
+            IUserDataService userDataService
         )
         {
             InitializeComponent();
@@ -53,9 +55,10 @@ namespace BusStation.UI
             RepairmentDataService = repairmentDataService;
             VoyageDataService = voyageDataService;
             AuthDataService = authDataService;
+            UserDataService = userDataService;
         }
 
-        private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             LoginTab.Content = new LoginView(AuthDataService);
         }
@@ -99,6 +102,12 @@ namespace BusStation.UI
                 case 9:
                     ViewContainer.Content = new VoyageView(VoyageDataService, BusRouteDataService, WorkerDataService, BusDataService);
                     break;
+                case 10:
+                    ViewContainer.Content = new UserView(UserDataService);
+                    break;
+                default:
+                    ViewContainer.Content = null;
+                    break;
             }
         }
 
@@ -106,17 +115,16 @@ namespace BusStation.UI
         {
             MainWindowContainer.SelectedIndex = 0;
             Properties.Settings.Default.AccessToken = null;
+            Properties.Settings.Default.Role = null;
+            TablesListBox.UnselectAll();
+            ViewContainer.Content = null;
             EventAggregator.Instance.RaiseUserUnauthorizedEvent();
         }
 
         private void ReportsButton_Click(object sender, RoutedEventArgs e)
         {
             MainWindowContainer.SelectedIndex = 2;
-        }
-
-        private void BackToTablesButtnon_Click(object sender, RoutedEventArgs e)
-        {
-            MainWindowContainer.SelectedIndex = 1;
+            ViewContainer.Content = null;
         }
 
         private async void OpenReportButnon_Click(object sender, RoutedEventArgs e)
@@ -140,6 +148,17 @@ namespace BusStation.UI
             {
                 ReportForm.Visibility = Visibility.Collapsed;
             }
+        }
+
+        private void ChartsButton_Click(object sender, RoutedEventArgs e)
+        {
+            ChartTab.Content = new ChartView(BusDataService, RepairmentDataService);
+            MainWindowContainer.SelectedIndex = 3;
+        }
+
+        private void TablesButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindowContainer.SelectedIndex = 1;
         }
     }
 }

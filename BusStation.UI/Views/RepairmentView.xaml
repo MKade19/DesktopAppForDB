@@ -7,7 +7,7 @@
              xmlns:viewModels="clr-namespace:BusStation.UI.ViewModels"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
-             d:DataContext="{d:DesignInstance viewModels:RepairmentViewModel, IsDesignTimeCreatable=True}"
+             d:DataContext="{d:DesignInstance viewModels:RepairmentViewModel}"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Margin="5,5,5,5">
         <Grid.ColumnDefinitions>
@@ -24,12 +24,13 @@
             Grid.Column="0" 
             SelectionMode="Single" 
             IsReadOnly="True" 
+            IsEnabled="{Binding Source={x:Static viewModels:UserStateViewModel.Instance}, Path=IsUserAdmin}"
             FontSize="18"
             AutoGenerateColumns="False"
             ItemsSource="{Binding Repairments}" SelectionChanged="RepairmentsGrid_SelectionChanged">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Дата начала" Width="120" Binding="{Binding BeginDate, StringFormat=d}"/>
-                <DataGridTextColumn Header="Дата окончания" Width="150" Binding="{Binding EndDate, StringFormat=d}"/>
+                <DataGridTextColumn Header="Дата начала" Width="120" Binding="{Binding BeginDate, StringFormat=dd.MM.yyyy}"/>
+                <DataGridTextColumn Header="Дата окончания" Width="150" Binding="{Binding EndDate, StringFormat=dd.MM.yyyy}"/>
                 <DataGridTextColumn Header="Механик" Binding="{Binding WorkerName}"/>
                 <DataGridTextColumn Header="Автобус" Binding="{Binding BusNumber}"/>
                 <DataGridTemplateColumn Header="Вид поломки" Width="200">
@@ -60,7 +61,7 @@
                     SelectedDate="{Binding BeginDate, Mode=TwoWay, TargetNullValue={x:Static sys:DateTime.Now}}"
                     />
             </StackPanel>
-            
+
             <StackPanel Orientation="Horizontal" Width="328" Height="71">
                 <Label Target="{Binding ElementName=EndDatePicker}" FontSize="18" Height="60" Width="136">
                     <TextBlock TextWrapping="Wrap" Text="Дата окончания" Height="48"/>
@@ -99,9 +100,24 @@
             <Button x:Name="SubmitButton" Content="Отправить" FontSize="18" Width="110" Height="44" Margin="0,10" Click="SubmitButton_Click"/>
         </StackPanel>
 
-        <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Button x:Name="CreateButton" Content="Создать" FontSize="18" Width="120" Height="44" Margin="0,0,30,0" Click="CreateButton_Click"/>
-            <Button x:Name="DeleteButton" Content="Удалить" FontSize="18" Width="120" Height="44" Margin="0,0,30,0" Click="DeleteButton_Click"/>
+        <StackPanel 
+            Grid.Row="1" 
+            Grid.Column="0" 
+            Orientation="Horizontal" 
+            HorizontalAlignment="Center" 
+            VerticalAlignment="Center">
+            <StackPanel Orientation="Horizontal" Width="283" >
+                <Button x:Name="CreateButton" Content="Создать" FontSize="18" Width="120" Height="44" Margin="0,0,30,0" Click="CreateButton_Click"/>
+                <Button x:Name="DeleteButton" Content="Удалить" FontSize="18" Width="120" Height="44" Margin="0,0,30,0" Click="DeleteButton_Click"/>
+            </StackPanel>
+            <StackPanel Width="141">
+                <TextBlock Text="Поиск по автобусу" FontSize="16" Height="34" Width="139" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <TextBox x:Name="SearchTextBox" Text="{Binding BusNumberForSearch, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="16" Width="98" Height="24" HorizontalAlignment="Center"/>
+                <StackPanel Orientation="Horizontal" Height="32" Width="96" HorizontalAlignment="Center">
+                    <Button x:Name="SearchButton" Content="Поиск" FontSize="14" Width="53" Height="24" Margin="0,0,10,0" Click="SearchButton_Click"/>
+                    <Button x:Name="RefreshSearchButton" Content="X" FontSize="14" Width="33" Height="24" Click="RefreshSearchButton_Click"/>
+                </StackPanel>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </UserControl>

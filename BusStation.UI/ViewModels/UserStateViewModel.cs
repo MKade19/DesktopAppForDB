@@ -6,6 +6,7 @@ namespace BusStation.UI.ViewModels
     {
         private static UserStateViewModel? _instance;
         private bool _isUserAuthorized;
+        private bool _isUserAdmin;
 
         public static UserStateViewModel Instance
         {
@@ -22,11 +23,13 @@ namespace BusStation.UI.ViewModels
         private void Instance_UserUnauthorized(object? sender, EventArgs e)
         {
             IsUserAuthorized = false;
+            IsUserAdmin = false;
         }
 
         private void Instance_UserAuthorized(object? sender, EventArgs e)
         {
             IsUserAuthorized = true;
+            IsUserAdmin = Properties.Settings.Default.Role.Equals("admin");
         }
 
         public bool IsUserAuthorized
@@ -36,6 +39,16 @@ namespace BusStation.UI.ViewModels
             {
                 _isUserAuthorized = value;
                 OnPropertyChanged(nameof(IsUserAuthorized));
+            }
+        }
+
+        public bool IsUserAdmin
+        {
+            get => _isUserAdmin;
+            set
+            {
+                _isUserAdmin = value;
+                OnPropertyChanged(nameof(IsUserAdmin));
             }
         }
     }

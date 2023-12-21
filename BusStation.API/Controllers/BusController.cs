@@ -30,6 +30,13 @@ namespace BusStation.API.Controllers
             return await BusService.GetByIdAsync(id);
         }
 
+        [HttpGet("colors-count")]
+        [Authorize]
+        public async Task<IEnumerable<BusColorWithCount>> GetColorsWithCount()
+        {
+            return await BusService.GetColorsWithCount();
+        }
+
         [HttpPost]
         [Authorize(Roles = "admin")]
         public async Task<ActionResult> CreateOneAsync([FromBody] Bus bus)

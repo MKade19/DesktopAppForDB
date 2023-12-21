@@ -23,6 +23,7 @@ builder.Services.AddTransient<IMedicalInspetionRepository, MedicalInspectionRepo
 builder.Services.AddTransient<ITechnicalInspetionRepository, TechnicalInspectionRepository>();
 builder.Services.AddTransient<IRepairmentRepository, RepairmentRepository>();
 builder.Services.AddTransient<IVoyageRepository, VoyageRepository>();
+builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddTransient<IBusProducerService, BusProducerService>();
 builder.Services.AddTransient<IBusModelService, BusModelService>();
 builder.Services.AddTransient<IBusService, BusService>();
@@ -33,7 +34,7 @@ builder.Services.AddTransient<IMedicalInspectionService, MedicalInspectionServic
 builder.Services.AddTransient<ITechnicalInspectionService, TechnicalInspectionService>();
 builder.Services.AddTransient<IRepairmentService, RepairmentService>();
 builder.Services.AddTransient<IVoyageService, VoyageService>();
-builder.Services.AddTransient<IUserRepository, UserRepository>();
+builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IAuthService, AuthService>();
 builder.Services.AddTransient<IHashService, HashService>();
 builder.Services.AddTransient<ITokenService, TokenService>();

@@ -45,7 +45,7 @@ namespace BusStation.API.Services
         {
             Position potentialPosition = await PositionRepository.GetByTitleAsync(position.Title);
 
-            if (potentialPosition.Id != -1)
+            if (potentialPosition.Id != -1 && position.Id == -1)
             {
                 throw new BadRequestException("There is such a position with this title!");
             }

@@ -64,5 +64,15 @@ namespace BusStation.API.Services
                 throw new BadRequestException("BeginDate must be less than EndDate!");
             }
         }
+
+        public async Task<IEnumerable<Repairment>> GetByBusNumberAsync(string busNumber)
+        {
+            return await RepairmentRepository.GetByBusNumberAsync(busNumber);
+        }
+
+        public async Task<IEnumerable<RepairmentYearWithCount>> GetYearsWithCountAsync()
+        {
+            return await RepairmentRepository.GetYearsWithCountAsync();
+        }
     }
 }

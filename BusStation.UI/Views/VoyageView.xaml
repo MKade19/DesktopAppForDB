@@ -9,7 +9,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" 
              d:DesignWidth="800"
-             d:DataContext="{d:DesignInstance viewModels:VoyageViewModel, IsDesignTimeCreatable=True}">
+             d:DataContext="{d:DesignInstance viewModels:VoyageViewModel}">
     <Grid Margin="5,5,5,5">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1.5*"/>
@@ -25,14 +25,15 @@
             Grid.Column="0" 
             SelectionMode="Single" 
             IsReadOnly="True"
+            IsEnabled="{Binding Source={x:Static viewModels:UserStateViewModel.Instance}, Path=IsUserAdmin}"
             FontSize="18"
             AutoGenerateColumns="False"
             ItemsSource="{Binding Voyages}" 
             SelectionChanged="VoyageGrid_SelectionChanged">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Дата рейса" Binding="{Binding VoyageDate, StringFormat=d}"/>
-                <DataGridTextColumn Header="Время отправления" Binding="{Binding DepartureTime, StringFormat=t}"/>
-                <DataGridTextColumn Header="Время прибытия" Binding="{Binding ArrivalTime, StringFormat=t}"/>
+                <DataGridTextColumn Header="Дата рейса" Binding="{Binding VoyageDate, StringFormat=dd.MM.yyyy}"/>
+                <DataGridTextColumn Header="Время отправления" Binding="{Binding DepartureTime, StringFormat=HH:mm}"/>
+                <DataGridTextColumn Header="Время прибытия" Binding="{Binding ArrivalTime, StringFormat=HH:mm}"/>
                 <DataGridTextColumn Header="Маршрут" Binding="{Binding BusRouteNumber}"/>
                 <DataGridTextColumn Header="Водитель" Binding="{Binding WorkerName}"/>
                 <DataGridTextColumn Header="Автобус" Binding="{Binding BusNumber}"/>
@@ -67,7 +68,7 @@
                     Text="{
                         Binding DepartureTime, 
                         Mode=TwoWay,
-                        StringFormat=t
+                        StringFormat=HH:mm
                     }" 
                     FontSize="18" 
                     TextWrapping="Wrap" 
@@ -83,7 +84,7 @@
                     Text="{
                         Binding ArrivalTime, 
                         Mode=TwoWay,
-                        StringFormat=t
+                        StringFormat=HH:mm
                     }" 
                     FontSize="18" 
                     TextWrapping="Wrap" 
@@ -121,9 +122,34 @@
             <Button x:Name="SubmitButton" Content="Отправить" FontSize="18" Width="104" Height="44" Margin="0,10" Click="SubmitButton_Click"/>
         </StackPanel>
 
-        <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Button x:Name="CreateButton" Content="Создать" FontSize="18" Width="120" Height="44" Margin="0,0,30,0" Click="CreateButton_Click"/>
-            <Button x:Name="DeleteButton" Content="Удалить" FontSize="18" Width="120" Height="44" Margin="0,0,30,0" Click="DeleteButton_Click"/>
+        <StackPanel
+            Grid.Row="1" 
+            Orientation="Horizontal"
+            HorizontalAlignment="Center" 
+            VerticalAlignment="Center"
+            Width="421" 
+            Height="80">
+            <StackPanel Orientation="Horizontal" 
+                        Width="281"
+                        Visibility="{Binding Source={x:Static viewModels:UserStateViewModel.Instance}, Path=IsUserAdmin, Converter={StaticResource BoolToVisibleConverter}}" HorizontalAlignment="Center">
+                <Button x:Name="CreateButton" Content="Создать" FontSize="18" Width="120" Height="44" Margin="0,0,20,0" Click="CreateButton_Click"/>
+                <Button x:Name="DeleteButton" Content="Удалить" FontSize="18" Width="120" Height="44" Margin="0,0,20,0" Click="DeleteButton_Click"/>
+            </StackPanel>
+            <StackPanel Width="136" HorizontalAlignment="Center">
+                <TextBlock TextWrapping="Wrap" Text="Фильтрация по маршруту" FontSize="16" Width="100" Height="52"/>
+                <StackPanel Orientation="Horizontal" Width="125">
+                    <ComboBox x:Name="RouteFilterComboBox" 
+                        Margin="0,0,20,0"
+                        ItemsSource="{Binding Routes}" 
+                        Width="76" Height="24" 
+                        FontSize="16" 
+                        SelectedItem="{Binding CurrentBusRouteForFilter, Mode=TwoWay}" 
+                        SelectionChanged="RouteFilterComboBox_SelectionChanged"/>
+                    <Button x:Name="RefreshButton" Content="X" FontSize="12" Width="28" Click="RefreshButton_Click"/>
+                </StackPanel>
+                
+            </StackPanel>
         </StackPanel>
+
     </Grid>
 </UserControl>

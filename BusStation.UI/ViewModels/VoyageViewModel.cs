@@ -22,6 +22,7 @@ namespace BusStation.UI.ViewModels
         private BusRoute _currentBusRoute;
         private Worker _currentWorker;
         private Bus _currentBus;
+        private BusRoute _currentBusRouteForFilter;
 
         public VoyageViewModel(IVoyageDataService voyageDataService, IBusRouteDataService busRouteDataService, IWorkerDataService workerDataService, IBusDataService busDataService)
         {
@@ -174,6 +175,16 @@ namespace BusStation.UI.ViewModels
             }
         }
 
+        public BusRoute CurrentBusRouteForFilter
+        {
+            get { return _currentBusRouteForFilter; }
+            set
+            {
+                _currentBusRouteForFilter = value;
+                OnPropertyChanged(nameof(CurrentBusRouteForFilter));
+            }
+        }
+
         public void ChangeCurrentVoyage(object voyage)
         {
             Voyage newVoyage = (Voyage)voyage;
@@ -192,6 +203,12 @@ namespace BusStation.UI.ViewModels
         public async Task LoadVoyagesAsync()
         {
             var loadedVoyages = await VoyageDataService.GetAllAsync();
+            Voyages = new ObservableCollection<Voyage>(loadedVoyages);
+        }
+
+        public async Task LoadVoyagesByRouteNumberAsync()
+        {
+            var loadedVoyages = await VoyageDataService.GetByRouteNumberAsync(CurrentBusRouteForFilter.RouteNumber);
             Voyages = new ObservableCollection<Voyage>(loadedVoyages);
         }
 

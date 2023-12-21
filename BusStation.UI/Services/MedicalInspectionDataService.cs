@@ -22,9 +22,19 @@ namespace BusStation.UI.Services
             await DeleteAsync(MEDICAL_INSPECTION_URL + "/" + id);
         }
 
+        public async Task<IEnumerable<MedicalInspection>> GetAllAscAsync()
+        {
+            return JsonSerializer.Deserialize<List<MedicalInspection>>(await GetAsync(MEDICAL_INSPECTION_URL + "/asc")) ?? new List<MedicalInspection>();
+        }
+
         public async Task<IEnumerable<MedicalInspection>> GetAllAsync()
         {
             return JsonSerializer.Deserialize<List<MedicalInspection>>(await GetAsync(MEDICAL_INSPECTION_URL)) ?? new List<MedicalInspection>();
+        }
+
+        public async Task<IEnumerable<MedicalInspection>> GetAllDescAsync()
+        {
+            return JsonSerializer.Deserialize<List<MedicalInspection>>(await GetAsync(MEDICAL_INSPECTION_URL + "/desc")) ?? new List<MedicalInspection>();
         }
 
         public async Task<MedicalInspection> GetByIdAsync(int id)

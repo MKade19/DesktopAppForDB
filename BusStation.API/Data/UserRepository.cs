@@ -14,7 +14,7 @@ namespace BusStation.API.Data
             _connection = BusStationDatabase.Instance.Connection;
         }
 
-        public async Task<User> GetUserByUsername(string username)
+        public async Task<User> GetUserByUsernameAsync(string username)
         {
             string sqlExpression = "usp_select_users_by_username";
             User? user = null;
@@ -49,6 +49,42 @@ namespace BusStation.API.Data
             return user ?? new User();
         }
 
+        public async Task<IEnumerable<User>> GetAllAsync()
+        {
+            string sqlExpression = "usp_select_users";
+            List<User> users = new List<User>();
+
+            try
+            {
+                await _connection.OpenAsync();
+
+                SqlCommand command = new SqlCommand(sqlExpression, _connection);
+                command.CommandType = CommandType.StoredProcedure;
+
+                using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                {
+                    if (reader.HasRows)
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            users.Add(GetUserFromReader(reader));
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
+
+
+            return users;
+        }
+
         public async Task CreateOne(User user)
         {
             string sqlExpression = "usp_create_user";
@@ -75,6 +111,55 @@ namespace BusStation.API.Data
             }
         }
 
+        public async Task UpdateByIdAsync(User user)
+        {
+            string sqlExpression = "usp_update_user_by_id";
+
+            try
+            {
+                await _connection.OpenAsync();
+
+                SqlCommand command = new SqlCommand(sqlExpression, _connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add(new SqlParameter("id", user.Id));
+                command.Parameters.Add(new SqlParameter("role", user.Role));
+
+                await command.ExecuteNonQueryAsync();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
+        }
+
+        public async Task DeleteByIdAsync(int id)
+        {
+            string sqlExpression = "usp_delete_user_by_id";
+
+            try
+            {
+                await _connection.OpenAsync();
+
+                SqlCommand command = new SqlCommand(sqlExpression, _connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add(new SqlParameter("id", id));
+
+                await command.ExecuteNonQueryAsync();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
+        }
+
         private User GetUserFromReader(SqlDataReader reader)
         {
             int id = reader.GetInt32("id");
@@ -82,7 +167,7 @@ namespace BusStation.API.Data
             string password = reader.GetString("password");
             byte[] salt = reader.GetSqlBytes(3).Value;
             string role = reader.GetString("role");
-            
+
             return new User(id, username, password, salt, role);
         }
     }
