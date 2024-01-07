@@ -48,7 +48,7 @@ namespace BusStation.API.Services
 
             if (worker.Id == -1)
             {
-                throw new BadRequestException("There is no such a worker!");
+                throw new BadRequestException("Данного сотрудника не существует!");
             }
         }
 

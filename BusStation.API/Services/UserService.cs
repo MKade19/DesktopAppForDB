@@ -1,8 +1,6 @@
 ﻿using BusStation.API.Data.Abstract;
-using BusStation.API.Data;
 using BusStation.API.Services.Abstract;
 using BusStation.Common.Models;
-using BusStation.API.Exceptions;
 
 namespace BusStation.API.Services
 {

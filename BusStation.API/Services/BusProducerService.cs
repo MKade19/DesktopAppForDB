@@ -45,9 +45,14 @@ namespace BusStation.API.Services
         {
             BusProducer potentialProducer = await BusProducerRepository.GetByTitleAsync(producer.Title);
 
-            if (potentialProducer.Id != -1)
+            if (potentialProducer.Id != -1 && producer.Id == -1)
             {
-                throw new BadRequestException("There is such a producer with this title!");
+                throw new BadRequestException("Уже существует производитель с данным наименованием!");
+            }
+
+            if (potentialProducer.Id != -1 && producer.Id != potentialProducer.Id && producer.Id != -1)
+            {
+                throw new BadRequestException("Cуществует другой производитель с данным наименованием!");
             }
         }
     }

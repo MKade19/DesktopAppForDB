@@ -54,12 +54,17 @@ namespace BusStation.API.Services
 
             if (potentialWorker.Id != -1 && worker.Id == -1)
             {
-                throw new BadRequestException("There is such a worker with this name!");
+                throw new BadRequestException("Уже существует сотрудник с данным ФИО!");
+            }
+
+            if (potentialWorker.Id != -1 && potentialWorker.Id != worker.Id && worker.Id != -1)
+            {
+                throw new BadRequestException("Cуществует другой сотрудник с данным ФИО!");
             }
 
             if (position.Id == -1)
             {
-                throw new BadRequestException("There is no such a position!");
+                throw new BadRequestException("Данная должность не существует!");
             }
         }
     }

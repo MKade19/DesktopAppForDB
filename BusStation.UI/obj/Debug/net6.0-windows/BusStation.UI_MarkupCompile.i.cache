@@ -12,9 +12,9 @@ TRACE;DEBUG;NET;NET6_0;NETCOREAPP
 D:\My_documents\practice\c#\BusStation\BusStation\BusStation.UI\App.xaml
 14-121249991
 
-681905383624
+671612242718
 235-240630664
 MainWindow.xaml;Views\BusModelView.xaml;Views\BusProducerView.xaml;Views\BusRouteView.xaml;Views\BusView.xaml;Views\ChartView.xaml;Views\LoginView.xaml;Views\MedicalInspectionView.xaml;Views\PositionView.xaml;Views\RepairmentView.xaml;Views\TechnicalInspectionView.xaml;Views\UserView.xaml;Views\VoyageView.xaml;Views\WorkerView.xaml;
 
-True
+False
 

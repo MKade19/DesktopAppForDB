@@ -1,5 +1,4 @@
-﻿using BusStation.API.Data;
-using BusStation.API.Data.Abstract;
+﻿using BusStation.API.Data.Abstract;
 using BusStation.API.Exceptions;
 using BusStation.API.Services.Abstract;
 using BusStation.Common.Models;
@@ -49,7 +48,7 @@ namespace BusStation.API.Services
 
             if (bus.Id == -1)
             {
-                throw new BadRequestException("There is no such a bus!");
+                throw new BadRequestException("Данного автобуса не существует!");
             }
         }
 

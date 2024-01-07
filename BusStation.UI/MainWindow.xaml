@@ -53,7 +53,7 @@
                     <ContentControl Grid.Column="3" x:Name="ViewContainer"/>
                 </Grid>
             </TabItem>
-            <TabItem Visibility="Visible">
+            <TabItem Visibility="Collapsed">
                 <Grid HorizontalAlignment="Center" Width="1002" VerticalAlignment="Center" Height="421">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1.7*"/>

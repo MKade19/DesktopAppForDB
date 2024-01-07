@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BusStation.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4cffc41e264f5b0574dbf80d12e6d2f47457fa18")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ea8ca31605327d3ebe099997c96976b7ff277d44")]
 [assembly: System.Reflection.AssemblyProductAttribute("BusStation.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BusStation.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

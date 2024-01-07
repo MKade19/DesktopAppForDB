@@ -40,11 +40,23 @@ namespace BusStation.API.Services
             await BusRouteRepository.UpdateByIdAsync(route);
         }
         
-        private void ValidateBusRoute(BusRoute route)
+        private async void ValidateBusRoute(BusRoute route)
         {
+            BusRoute potientialBusRoute = await BusRouteRepository.GetByNumberAsync(route.RouteNumber);
+
+            if (potientialBusRoute.Id != -1 && route.Id == -1)
+            {
+                throw new BadRequestException("Уже существует маршрут с данным номером!");
+            }
+
+            if (potientialBusRoute.Id != -1 && route.Id != potientialBusRoute.Id && route.Id != -1)
+            {
+                throw new BadRequestException("Cуществует другой маршрут с данным номером!");
+            }
+
             if (route.Departure.Equals(route.Destination)) 
             {
-                throw new BadRequestException("Departure and Destination can't be the same!");
+                throw new BadRequestException("Точка отправления и точка прибытия должны отличаться!");
             }
         }
     }

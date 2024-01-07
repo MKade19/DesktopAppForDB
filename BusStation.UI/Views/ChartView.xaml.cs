@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.DataVisualization.Charting;
-using DataVis = System.Windows.Controls.DataVisualization;
 
 namespace BusStation.UI.Views
 {

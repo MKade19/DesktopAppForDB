@@ -21,13 +21,13 @@ namespace BusStation.API.Middlewares
                 var problemDetails = new ProblemDetails
                 {
                     Type = "http://api/bus-station/",
-                    Title = "Uprocessible Entity Error",
+                    Title = "Uprocessible entity Error",
                     Status = StatusCode,
                     Instance = context.Request.Path,
-                    Detail = $"Internal server error occured, traceId: {traceId}, message: {e.Message}",
+                    Detail = $"Uprocessible entity error occured, traceId: {traceId}, message: {e.Message}",
                 };
 
-                await context.Response.WriteAsJsonAsync(problemDetails);
+                await context.Response.WriteAsync(e.Message);
             }
             catch (NotFoundException e)
             {
@@ -42,10 +42,10 @@ namespace BusStation.API.Middlewares
                     Title = "Not found Error",
                     Status = StatusCode,
                     Instance = context.Request.Path,
-                    Detail = $"Internal server error occured, traceId: {traceId}, message: {e.Message}",
+                    Detail = $"Not found error occured, traceId: {traceId}, message: {e.Message}",
                 };
 
-                await context.Response.WriteAsJsonAsync(problemDetails);
+                await context.Response.WriteAsync(e.Message);
             }
             catch (UnauthorizedException e)
             {
@@ -60,10 +60,10 @@ namespace BusStation.API.Middlewares
                     Title = "Unauthorized Error",
                     Status = StatusCode,
                     Instance = context.Request.Path,
-                    Detail = $"Internal server error occured, traceId: {traceId}, message: {e.Message}",
+                    Detail = $"Unauthorized error occured, traceId: {traceId}, message: {e.Message}",
                 };
 
-                await context.Response.WriteAsJsonAsync(problemDetails);
+                await context.Response.WriteAsync(e.Message);
             }
             catch (BadRequestException e)
             {
@@ -78,10 +78,10 @@ namespace BusStation.API.Middlewares
                     Title = "Bad request Error",
                     Status = StatusCode,
                     Instance = context.Request.Path,
-                    Detail = $"Internal server error occured, traceId: {traceId}, message: {e.Message}",
+                    Detail = $"Bad request error occured, traceId: {traceId}, message: {e.Message}",
                 };
 
-                await context.Response.WriteAsJsonAsync(problemDetails);
+                await context.Response.WriteAsync(e.Message);
             }
             catch (Exception e)
 			{
@@ -99,7 +99,7 @@ namespace BusStation.API.Middlewares
                     Detail = $"Internal server error occured, traceId: {traceId}, message: {e.Message}",
                 };
 
-                await context.Response.WriteAsJsonAsync(problemDetails);
+                await context.Response.WriteAsync(e.Message);
             }
         }
     }

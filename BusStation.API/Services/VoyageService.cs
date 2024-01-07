@@ -54,22 +54,17 @@ namespace BusStation.API.Services
 
             if (bus.Id == -1)
             {
-                throw new BadRequestException("There is no such a bus!");
+                throw new BadRequestException("Данного автобуса не существует!");
             }
             
             if (worker.Id == -1)
             {
-                throw new BadRequestException("There is no such a worker!");
+                throw new BadRequestException("Данного сотрудника не существует!");
             }
             
             if (busRoute.Id == -1)
             {
-                throw new BadRequestException("There is no such a bus route!");
-            }
-
-            if (voyage.DepartureTime >= voyage.ArrivalTime) 
-            {
-                throw new BadRequestException("DepartureTime must be less than ArrivalTime!");
+                throw new BadRequestException("Данного маршрута не существует!");
             }
         }
 

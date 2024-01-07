@@ -16,7 +16,7 @@
 
         <TextBlock Text="Выбор диаграммы" Grid.Column="0" Margin="0,29,0,361" TextAlignment="Center" FontSize="22" FontWeight="Bold"/>
         <ListBox x:Name="ChartsListBox" Padding="0,5,0,5" Height="250" FontSize="18" Margin="0,95,5,95" HorizontalAlignment="Center" SelectionChanged="ChartsListBox_SelectionChanged">
-            <ListBoxItem Background="LightGray" Content="Кол-во цветов автобусов"/>
+            <ListBoxItem Background="LightGray" Content="Кол-во автобусов по цветам"/>
             <ListBoxItem Content="Кол-во ремонтов по годам"/>
         </ListBox>
 

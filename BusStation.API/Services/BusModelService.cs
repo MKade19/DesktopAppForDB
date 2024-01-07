@@ -48,14 +48,19 @@ namespace BusStation.API.Services
             BusModel potentialModel = await BusModelRepository.GetByTitleAsync(model.Title);
             BusProducer busProducer = await BusProducerRepository.GetByIdAsync(model.ProducerId);
 
-            if (potentialModel.Id != -1)
+            if (potentialModel.Id != -1 && model.Id == -1)
             {
-                throw new BadRequestException("There is such a model with this title!");
+                throw new BadRequestException("Уже существует модель с данным наименованием!");
+            }
+
+            if (potentialModel.Id != model.Id && potentialModel.Id != -1 && model.Id != -1)
+            {
+                throw new BadRequestException("Существует другая модель с данным наименованием!");
             }
 
             if (busProducer.Id == -1)
             {
-                throw new BadRequestException("There is no such a producer!");
+                throw new BadRequestException("Данного производителя не существует!");
             }
         }
 

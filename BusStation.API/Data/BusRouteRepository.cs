@@ -133,6 +133,40 @@ namespace BusStation.API.Data
             return route ?? new BusRoute();
         }
 
+        public async Task<BusRoute> GetByNumberAsync(string routeNumber)
+        {
+            string sqlExpression = "usp_select_bus_route_by_number";
+            BusRoute? route = null;
+
+            try
+            {
+                await _connection.OpenAsync();
+
+                SqlCommand command = new SqlCommand(sqlExpression, _connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add(new SqlParameter("routeNumber", routeNumber));
+
+                using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                {
+                    if (reader.HasRows)
+                    {
+                        await reader.ReadAsync();
+                        route = GetRouteFromReader(reader);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
+
+            return route ?? new BusRoute();
+        }
+
         public async Task UpdateByIdAsync(BusRoute route)
         {
             string sqlExpression = "usp_update_route_by_id";

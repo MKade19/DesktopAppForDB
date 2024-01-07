@@ -29,10 +29,5 @@ namespace BusStation.API.Services
 
             return new JwtSecurityTokenHandler().WriteToken(jwt);
         }
-
-        public void ValidateToken(string token)
-        {
-            
-        }
     }
 }

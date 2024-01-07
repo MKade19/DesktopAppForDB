@@ -78,7 +78,7 @@ namespace BusStation.UI.Util
             Word.Paragraph passengerParagraph = document.Paragraphs.Add();
             Word.Range passengerRange = passengerParagraph.Range;
             string allowance = isAllowed ? "допуск" : "недопуск";
-            passengerRange.Text = $"Техосмотр за {year} год ({allowance})";
+            passengerRange.Text = $"Техосмотры за {year} год ({allowance})";
             passengerRange.InsertParagraphAfter();
             passengerRange.Bold = 1;
             passengerRange.Font.Size = 20;

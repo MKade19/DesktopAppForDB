@@ -47,7 +47,12 @@ namespace BusStation.API.Services
 
             if (potentialPosition.Id != -1 && position.Id == -1)
             {
-                throw new BadRequestException("There is such a position with this title!");
+                throw new BadRequestException("Уже существует должность с данным наименованием!");
+            }
+
+            if (potentialPosition.Id != -1 && potentialPosition.Id != position.Id && position.Id != -1)
+            {
+                throw new BadRequestException("Cуществует другая должность с данным наименованием!");
             }
         }
     }

@@ -24,12 +24,12 @@ namespace BusStation.API.Services
 
             if (userFromDB.Id == -1) 
             {
-                throw new NotFoundException("Incorrect username!");
+                throw new NotFoundException("Данного пользователя не существует!");
             }
             
             if (!HashService.VerifyHash(user.Password, userFromDB.Password, userFromDB.Salt))
             {
-                throw new BadRequestException("Incorrect password!");
+                throw new BadRequestException("Неверный пароль!");
             }
 
             AuthData authData = new AuthData(TokenService.GetToken(userFromDB), userFromDB.Role);

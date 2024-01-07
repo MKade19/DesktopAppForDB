@@ -1,8 +1,6 @@
-﻿using BusStation.UI.Services;
-using BusStation.UI.Services.Abstract;
+﻿using BusStation.UI.Services.Abstract;
 using BusStation.UI.Util;
 using BusStation.UI.ViewModels;
-using System;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;

@@ -51,17 +51,17 @@ namespace BusStation.API.Services
 
             if (bus.Id == -1)
             {
-                throw new BadRequestException("There is no such a bus!");
+                throw new BadRequestException("Данного автобуса не существует!");
             }
 
             if (worker.Id == -1)
             {
-                throw new BadRequestException("There is no such a worker!");
+                throw new BadRequestException("Данного сотрудника не существует!");
             }
 
             if (repairment.BeginDate >= repairment.EndDate)
             {
-                throw new BadRequestException("BeginDate must be less than EndDate!");
+                throw new BadRequestException("Дата начала должна быть меньше даты окончания!");
             }
         }
 

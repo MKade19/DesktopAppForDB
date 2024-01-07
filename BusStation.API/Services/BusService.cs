@@ -50,12 +50,17 @@ namespace BusStation.API.Services
 
             if (potentialBus.Id != -1 && bus.Id == -1)
             {
-                throw new BadRequestException("There is such a bus with this number!");
+                throw new BadRequestException("Уже существует автобус с данным номером!");
+            }
+
+            if (potentialBus.Id != -1 && potentialBus.Id != bus.Id && bus.Id != -1)
+            {
+                throw new BadRequestException("Существует другой автобус с данным номером!");
             }
 
             if (busModel.Id == -1)
             {
-                throw new BadRequestException("There is no such a model!");
+                throw new BadRequestException("Данной модели не существует!");
             }
         }
 
